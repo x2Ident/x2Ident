@@ -1,0 +1,29 @@
+{
+    "name": "nilsteampassnet/TeamPass",
+    "type": "project",
+    "description": "TeamPass is a Passwords Manager dedicated for managing passwords in a collaborative way",
+    "version": "2.1.26",
+    "keywords": ["passwords", "manager", "collaborative"],
+    "homepage": "http://www.teampass.net/",
+    "license": "GNU Affero GPL 3",
+    "authors": [
+        {"name": "Nils Laumaillé", "email": "nils@teampass.net"}
+    ],
+    "support": {
+        "email": "nils@teampass.net",
+        "issues": "https://github.com/nilsteampassnet/TeamPass/issues",
+        "source": "https://github.com/nilsteampassnet/TeamPass",
+        "wiki": "http://www.teampass.net"
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "mysqli": ">=5.1.0",
+        "mcrypt": "*",
+        "mbstring": "*",
+        "openssl": "*",
+        "bcmath": "*",
+        "iconv": "*",
+        "xml": "*",
+        "gd": "*"
+    }
+}

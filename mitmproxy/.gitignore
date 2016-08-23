@@ -1,0 +1,21 @@
+.DS_Store
+MANIFEST
+*/tmp
+/venv*
+*.py[cdo]
+*.swp
+*.swo
+*.egg-info/
+.coverage
+.idea
+.cache/
+.tox*/
+build/
+
+# UI
+
+node_modules
+bower_components
+*.map
+sslkeylogfile.log
+.tox/
