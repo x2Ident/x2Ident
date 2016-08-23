@@ -1,2 +1,17 @@
 # x2Ident
 x2Ident is the worlds first login technique, which protects users on every website in the internet against keylogger, clipboard-spoofing and unauthorized man-in-the-middle-attacks.
+
+## Installation
+* (install Apache2, mysql, php)
+* clone repository
+* change urls in proxy/* (they should point to your x2Ident directory on your server)
+* create a user in mysql (e.g. x2ident) and a database (e.g. x2ident)
+* change db credentials in proxy/* and keygen/*
+* open admin/index.php in your browser and follow the instructions
+* cd mitmproxy
+* run ./dev.sh
+* activate venv by ". venv/bin/activate" and install mysqldb for python
+* deactivate venv
+* start the proxy server by "mitmproxy -s proxy/x2ident_replace.py -q"
+
+we are working on an install script ;-)
