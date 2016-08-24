@@ -5,6 +5,7 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+//TODO: rename refreshData.php -> jsInterface.php
 
 if(strlen($_SESSION['user'])<1) {
 header("Location: login");
@@ -28,7 +29,7 @@ function fetchData(once) {
 	var data = new FormData();
 	data.append("js-id",js_id);
 	var request = new XMLHttpRequest();
-	request.open("POST","refreshData.php");
+	request.open("POST","jsInterface.php");
 	request.addEventListener('load', function(event) {
 		if ((request.status >= 200) && (request.status < 300)) {
 		    var antwort = request.responseText;
@@ -38,14 +39,17 @@ function fetchData(once) {
 			var arr_lastlogin_time_new = [];
 			for(i=0; i<arr1.length-1; i++) {
 				var arr2 = arr1[i].split(";");
-				var otk_html = "<button>Key erstellen</button>";
+				var otk_html = "<button onclick=\"createOTK("+i+")\">Key erstellen</button>";
 				var otk_value = arr2[4];
 				var otk_string = otk_value+"";
 				if(otk_string.length>1) {
-					otk_html = "<input value=\""+otk_string+"\"></input><button>Key löschen</button>";
+					otk_html = "<input value=\""+otk_string+"\"></input><button onclick=\"removeOTK("+i+")\">Key löschen</button>";
 				}
 				var global_html = "<input type=\"checkbox\">";
-				//if arr2[5]
+				var global_value = arr2[5];
+				if(global_value==1) {
+					global_html = "<input type=\"checkbox\" checked>";
+				}
 				var expires_time = arr2[6];
 				arr_expires_time_new.push(expires_time);
 				var lastlogin_time = arr2[7];
@@ -55,7 +59,7 @@ function fetchData(once) {
 			}
 			var content_element = document.getElementById("content");
 			if(html.localeCompare(last_html)==0) {
-				console.log("gleich");
+				//console.log("gleich");
 			}
 			else {
 				content_element.innerHTML = html;
@@ -76,7 +80,22 @@ function fetchData(once) {
     request.send(data);
 }
 
-function createOTK() {
+function createOTK(OTK_id) {
+	var data = new FormData();
+	data.append("js-id",js_id);
+	data.append("createOTK-id",OTK_id);
+	var request = new XMLHttpRequest();
+	request.open("POST","jsInterface.php");
+	request.addEventListener('load', function(event) {
+		if ((request.status >= 200) && (request.status < 300)) {
+		    var antwort = request.responseText;
+			//TODO: if error -> alert
+			
+	    } else {
+		    console.warn(request.statusText, request.responseText);
+	    }
+    });
+    request.send(data);
 }
 
 function refreshData(once) {
