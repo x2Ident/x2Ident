@@ -5,12 +5,26 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
-//TODO: rename refreshData.php -> jsInterface.php
-
 if(strlen($_SESSION['user'])<1) {
-header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	//header("Location: login");
+	var_dump($_SESSION);
+	die('1Bitte zuerst <a href="login">einloggen</a>');
 }
+
+//ggf. Logout
+if(isset($_POST['logout'])) {
+	//TODO: deactivate all OTKs
+    $sess_id = $_SESSION['sess_id'];
+	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
+    //echo $eintrag;
+	$mysqli->query($eintrag);
+	$_SESSION['user'] = null;
+	$_SESSION['sess_id'] = null;
+	$_SESSION['js-id'] = null;
+	//header("Location: login");
+	die('2Bitte zuerst <a href="login">einloggen</a>');
+}
+
 ?>
 <html>
 <head>
@@ -25,7 +39,9 @@ var last_html;
 var arr_expires_time = [];
 var arr_lastlogin_time = [];
 var arr_pwid = [];
-var js_id = "hvdrjqY9Cs";
+var js_id = '<?php
+echo $_SESSION['js-id'];
+?>';
 fetchData(false);
 refreshData(false);
 

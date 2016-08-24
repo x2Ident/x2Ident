@@ -21,6 +21,22 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
+
+//ggf. Logout
+if(isset($_POST['logout'])) {
+	//TODO: deactivate all OTKs
+    $sess_id = $_SESSION['sess_id'];
+	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
+    //echo $eintrag;
+	$mysqli->query($eintrag);
+	$_SESSION['user'] = null;
+	$_SESSION['sess_id'] = null;
+	$_SESSION['js-id'] = null;
+	header("Location: login");
+	die('Bitte zuerst <a href="login">einloggen</a>');
+}
+
+
 $form_keyerstellen = '<form action="" method="post"><input type="hidden" name="otk_pw_id" value="@@id@@"><input type="submit" value="Key erstellen"></form>';
 
 //Daten abrufen
@@ -68,20 +84,6 @@ if(isset($_POST['otk_global_id'])) {
 	$global_value = $_POST['otk_global'];
 	$eintrag = "UPDATE onetimekeys SET globalpw=$global WHERE pwid = '".$pwid."' ";
 	$mysqli->query($eintrag);
-}
-
-//ggf. Logout
-if(isset($_POST['logout'])) {
-	//TODO: deactivate all OTKs
-    $sess_id = $_SESSION['sess_id'];
-	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
-    //echo $eintrag;
-	$mysqli->query($eintrag);
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['cookie_id'] = null;
-	header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
 echo '<html><head>

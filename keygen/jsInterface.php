@@ -48,8 +48,10 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 			$db_ip = $obj->ip;
 		}
 	}
-
-if(!js_id_valide) {
+if(!$js_id_valide) {
+	$_SESSION['user'] = null;
+	$_SESSION['sess_id'] = null;
+	$_SESSION['js_id'] = null;
 	die("JS-id not valid.");
 }
 

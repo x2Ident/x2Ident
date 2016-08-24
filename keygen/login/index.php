@@ -53,7 +53,7 @@ if(isset($_POST['auth_code'])) {
             $user_agent = $_SERVER ['HTTP_USER_AGENT'];
             $_SESSION['sess_id'] = $sess_id;
             $_SESSION['js-id'] = $js_id;
-			$_SESSION['user']=$username;
+			$_SESSION['user'] = $username;
 			$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
 			$mysqli->query($eintrag);
 			$eintrag = "INSERT INTO session_user (user,ip,sess_id,js_id,user_agent) VALUES ('$username','$ip','$sess_id','$js_id','$user_agent')";
