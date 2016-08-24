@@ -1,5 +1,5 @@
 <?php
-//TODO: Only Website domain login allowed checkbox DB
+
 session_start();
 
 //error_reporting(E_ALL);
@@ -10,15 +10,19 @@ if(strlen($_SESSION['user'])<1) {
 header("Location: login");
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
+
 include('api.secret.php');
+
 $mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
 
-/* check connection */
+//Check DB connection
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+
 $form_keyerstellen = '<form action="" method="post"><input type="hidden" name="otk_pw_id" value="@@id@@"><input type="submit" value="Key erstellen"></form>';
+
 //Daten abrufen
 $ch = curl_init();
 $url = str_replace("@@user@@",$_SESSION['user'],$api_url);

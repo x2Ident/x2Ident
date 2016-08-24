@@ -1,7 +1,10 @@
 <?php
+
 session_start();
+
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
+
 
 //Get user IP address
 $ip = "";
@@ -15,6 +18,7 @@ $proxy_ip = getallheaders()["xident-real-ip"];
 if(strlen($proxy_ip)>1) {
 	$ip = $proxy_ip;
 }
+
 //var_dump(getallheaders());
 
 $mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
@@ -67,7 +71,7 @@ if(isset($_POST['auth_code'])) {
 	}
 }
 else {
-
+	//default case
 	printLoginForm("");
 }
 
