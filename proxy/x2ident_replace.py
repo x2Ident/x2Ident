@@ -48,24 +48,8 @@ def request(flow):
                 flow.reply.send(resp)
                 print("redirect to xIdent landing page")
 
-    if "noscio.eu/xi-proxy" in flow.request.url:
-        print("replaced xi-proxy url")
-        flow.request.url = flow.request.url.replace("noscio.eu/xi-proxy/","")
-        print(flow.request.url)
-        request_host = flow.request.url.split("://")[1].split("/")[0]
-        flow.request.host = request_host
-        print("host: "+request_host)
-    else:
-        redirect_url = "https://noscio.eu/xi-proxy/"+flow.request.url.split("://")[1]
-        if "mitm.it" not in flow.request.url:
-                print("redirect to url: "+redirect_url)
-                resp = HTTPResponse(
-                    b"HTTP/1.1", 303, b"See Other \nLocation: "+redirect_url,
-                    Headers(Location=redirect_url),
-                    b"<html><head><title>Redirect</title></head><body><h1>Redirect</h1> <a href=\"https://noscio.eu/xIdent\">Login: https://noscio.eu/xIdent</a></body></html>"
-                )
-                flow.reply.send(resp)
-                print("redirect to xi-proxy domain")
+    
+    
 
     # query = "INSERT INTO onetimekeys (pwid, onetime, real_pw, pw_active) VALUES ('100', 'asdfjkö', 'imagine','1')"
     # cur.execute(query)
