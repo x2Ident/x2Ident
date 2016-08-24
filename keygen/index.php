@@ -1,9 +1,14 @@
 <?php
 //TODO: Only Website domain login allowed checkbox DB
 session_start();
+
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+
+
 if(strlen($_SESSION['user'])<1) {
-header("Location: login.php");
-	die('Bitte zuerst <a href="login.php">einloggen</a>');
+header("Location: login");
+	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 include('api.secret.php');
 $mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
@@ -71,8 +76,8 @@ if(isset($_POST['logout'])) {
 	$_SESSION['user'] = null;
 	$_SESSION['sess_id'] = null;
 	$_SESSION['cookie_id'] = null;
-	header("Location: login.php");
-	die('Bitte zuerst <a href="login.php">einloggen</a>');
+	header("Location: login");
+	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
 echo '<html><head>

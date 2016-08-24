@@ -1,5 +1,7 @@
 <?php
 session_start();
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 //Get user IP address
 $ip = "";
@@ -15,19 +17,6 @@ if(strlen($proxy_ip)>1) {
 }
 //var_dump(getallheaders());
 
-echo '
-<html>
-<head>
-<title>xIdent: Login</title>
-</head>
-<body>
-<h1><a href="../">xIdent</a>: Keygen Login</h1>
-';
-
-
-$login_form = '<form action="" method="post">Benutzername:<input type="text" name="user_name" value=""><br>Google Authenticator Code:<input type="text" name="auth_code" value=""><br><input type="submit" value="Einloggen"></form>
-<br>Falls du keinen Code hast: <a href="../admin">logge dich in der Admin-Zone ein</a> und scanne den QR-Code.';
-
 $mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
 /* check connection */
 if (mysqli_connect_errno()) {
@@ -35,7 +24,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
-require_once 'inc/GoogleAuthenticator.php';
+require_once '../inc/GoogleAuthenticator.php';
 $secret = "";
 $ga = new PHPGangsta_GoogleAuthenticator();
  
@@ -64,35 +53,36 @@ if(isset($_POST['auth_code'])) {
 			$eintrag = "INSERT INTO session_user (user,ip,sess_id,user_agent) VALUES ('$username','$ip','$sess_id','$user_agent')";
             echo $ip;
 			$mysqli->query($eintrag);
-			header("Location: ./");
+			header("Location: ../");
 			die();
 		}
 		else {
+			printLoginForm("Login failed");
 			login_failed($login_form);
 		}
 	}
 	else {
-		echo "<h1>Du hast noch keinen Google Authenticator Code!</h1>";
+		printLoginForm("Du hast noch keinen Google Authenticator Code!");
 		login_failed($login_form);
 	}
 }
 else {
 
-	echo $login_form;
+	printLoginForm("");
 }
 
-echo '
-</body>
-</html>
-';
-
-
 function login_failed($login_form) {
-	echo '<h1>Anmeldung fehlgeschlagen!</h1>';
 	$_SESSION['user'] = null;
 	$_SESSION['sess_id'] = null;
 	$_SESSION['cookie_id'] = null;
-	echo $login_form;
+}
+
+function printLoginForm($message) {
+	$maske = file_get_contents("maske.html");
+	if(strlen($message)>1) {
+		$maske = str_replace("<!--message-->","<center><h2>".$message."</h2></center>",$maske);
+	}
+	echo $maske;
 }
 
 function rand_char($length) {
