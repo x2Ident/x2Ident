@@ -7,7 +7,7 @@ session_start();
 
 
 if(strlen($_SESSION['user'])<1) {
-header("Location: login");
+	header("Location: login");
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
@@ -20,6 +20,20 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+
+
+//ggf. Logout
+if(isset($_POST['logout'])) {
+	//TODO: deactivate all OTKs
+    $sess_id = $_SESSION['sess_id'];
+	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
+    //echo $eintrag;
+	$mysqli->query($eintrag);
+	session_unset();
+	header("Location: login");
+	die('Bitte zuerst <a href="login">einloggen</a>');
+}
+
 
 $form_keyerstellen = '<form action="" method="post"><input type="hidden" name="otk_pw_id" value="@@id@@"><input type="submit" value="Key erstellen"></form>';
 
@@ -70,27 +84,18 @@ if(isset($_POST['otk_global_id'])) {
 	$mysqli->query($eintrag);
 }
 
-//ggf. Logout
-if(isset($_POST['logout'])) {
-	//TODO: deactivate all OTKs
-    $sess_id = $_SESSION['sess_id'];
-	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
-    //echo $eintrag;
-	$mysqli->query($eintrag);
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['cookie_id'] = null;
-	header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
-}
-
-echo '<html><head>
-
+echo '
+<html>
+<head>
 <link rel="stylesheet" href="pure-io.css">
 <title>xIdent: Keygen</title>
 <meta http-equiv="refresh" content="5">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
+var current_url = window.location;
+var new_url = current_url + "/../js-index.php";
+window.location.replace(new_url);
+
 window.setTimeout(countdown_expire, 1000);
 function countdown_expire() {
     var elements = document.getElementsByClassName("expires");
@@ -250,3 +255,5 @@ function rand_char($length) {
 	}
 	return $random;
 }
+
+?>

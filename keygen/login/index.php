@@ -49,12 +49,14 @@ if(isset($_POST['auth_code'])) {
 		$checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
 		if ($checkResult) {
 			$sess_id = rand_char(10);
+			$js_id = rand_char(10);
             $user_agent = $_SERVER ['HTTP_USER_AGENT'];
             $_SESSION['sess_id'] = $sess_id;
-			$_SESSION['user']=$username;
+            $_SESSION['js-id'] = $js_id;
+			$_SESSION['user'] = $username;
 			$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
 			$mysqli->query($eintrag);
-			$eintrag = "INSERT INTO session_user (user,ip,sess_id,user_agent) VALUES ('$username','$ip','$sess_id','$user_agent')";
+			$eintrag = "INSERT INTO session_user (user,ip,sess_id,js_id,user_agent) VALUES ('$username','$ip','$sess_id','$js_id','$user_agent')";
             echo $ip;
 			$mysqli->query($eintrag);
 			header("Location: ../");
@@ -66,7 +68,7 @@ if(isset($_POST['auth_code'])) {
 		}
 	}
 	else {
-		printLoginForm("Du hast noch keinen Google Authenticator Code!");
+		printLoginForm("You do not registered a Google Authenticator code!");
 		login_failed($login_form);
 	}
 }
@@ -78,7 +80,7 @@ else {
 function login_failed($login_form) {
 	$_SESSION['user'] = null;
 	$_SESSION['sess_id'] = null;
-	$_SESSION['cookie_id'] = null;
+	$_SESSION['js-id'] = null;
 }
 
 function printLoginForm($message) {
