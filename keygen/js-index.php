@@ -6,9 +6,17 @@ session_start();
 //ini_set('display_errors', 1);
 
 if(strlen($_SESSION['user'])<1) {
-	//header("Location: login");
-	var_dump($_SESSION);
-	die('1Bitte zuerst <a href="login">einloggen</a>');
+	header("Location: login");
+	//var_dump($_SESSION);
+	die('Bitte zuerst <a href="login">einloggen</a>');
+}
+
+$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
+
+//Check DB connection
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
 }
 
 //ggf. Logout
@@ -21,8 +29,8 @@ if(isset($_POST['logout'])) {
 	$_SESSION['user'] = null;
 	$_SESSION['sess_id'] = null;
 	$_SESSION['js-id'] = null;
-	//header("Location: login");
-	die('2Bitte zuerst <a href="login">einloggen</a>');
+	header("Location: login");
+	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
 ?>
