@@ -16,7 +16,7 @@ if(strlen($proxy_ip)>1) {
 }
 
 //Get JS id
-$js_id = $_GET['js-id'];
+$js_id = $_POST['js-id'];
 if(strlen($js_id)<1) {
 	die("JS-id not valid.");
 }
@@ -154,7 +154,7 @@ foreach ($data as $key => $val) {
 		$expires_text = "-";
 	}
 
-	$output = "$id;$title;$url;$otk;$expires;$pw_global;$lastlogin|";
+	$output = "$id;$title;$url;$username;$otk;$pw_global;$expires;$lastlogin|";
 	echo $output;
 
 }
