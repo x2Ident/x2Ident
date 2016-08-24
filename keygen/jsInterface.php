@@ -1,4 +1,5 @@
 <?php
+
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
@@ -49,14 +50,13 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 		}
 	}
 if(!$js_id_valide) {
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['js_id'] = null;
+	session_unset();
 	die("JS-id not valid.");
 }
 
 if(strcmp($ip,$db_ip)!=0) {
-	//evtl. Warnung
+	session_unset();
+	die("IP-Address not valid.");
 }
 
 //ggf. OTK generieren und in DB schreiben

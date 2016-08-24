@@ -7,7 +7,7 @@ session_start();
 
 
 if(strlen($_SESSION['user'])<1) {
-header("Location: login");
+	header("Location: login");
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
@@ -29,9 +29,7 @@ if(isset($_POST['logout'])) {
 	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
     //echo $eintrag;
 	$mysqli->query($eintrag);
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['js-id'] = null;
+	session_unset();
 	header("Location: login");
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
@@ -86,8 +84,9 @@ if(isset($_POST['otk_global_id'])) {
 	$mysqli->query($eintrag);
 }
 
-echo '<html><head>
-
+echo '
+<html>
+<head>
 <link rel="stylesheet" href="pure-io.css">
 <title>xIdent: Keygen</title>
 <meta http-equiv="refresh" content="5">

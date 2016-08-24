@@ -26,9 +26,7 @@ if(isset($_POST['logout'])) {
 	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
     //echo $eintrag;
 	$mysqli->query($eintrag);
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['js-id'] = null;
+	session_unset();
 	header("Location: login");
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
