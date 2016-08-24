@@ -17,6 +17,7 @@ header("Location: login");
 <link rel="stylesheet" href="pure-io.css">
 <meta charset="UTF-8"> 
 <script>
+var last_html;
 var arr_expires_time = [];
 var arr_lastlogin_time = [];
 var js_id = "hvdrjqY9Cs";
@@ -53,9 +54,13 @@ function fetchData(once) {
 				html = html + zeile;
 			}
 			var content_element = document.getElementById("content");
-			var last_html = content_element.innerHTML;
-			content_element.innerHTML = html;
-
+			if(html.localeCompare(last_html)==0) {
+				console.log("gleich");
+			}
+			else {
+				content_element.innerHTML = html;
+			}
+			last_html = html;
 			arr_expires_time = arr_expires_time_new;
 			arr_lastlogin_time = arr_lastlogin_time_new;
 
@@ -69,6 +74,9 @@ function fetchData(once) {
 	    }
     });
     request.send(data);
+}
+
+function createOTK() {
 }
 
 function refreshData(once) {
