@@ -18,11 +18,12 @@ header("Location: login");
 <meta charset="UTF-8"> 
 <script>
 var arr_expires_time = [];
-var js_id = "Cu1BOlpysp";
+var arr_lastlogin_time = [];
+var js_id = "hvdrjqY9Cs";
+fetchData(false);
 refreshData(false);
-refreshExpires(false);
-function refreshData(once) {
-	console.log("refresh Data");
+
+function fetchData(once) {
 	var data = new FormData();
 	data.append("js-id",js_id);
 	var request = new XMLHttpRequest();
@@ -33,21 +34,27 @@ function refreshData(once) {
 			var html = "<table  class=\"pure-table\"><thead><tr><th>ID</th><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
 			var arr1 = antwort.split("|");
 			var arr_expires_time_new = [];
+			var arr_lastlogin_time_new = [];
 			for(i=0; i<arr1.length-1; i++) {
 				var arr2 = arr1[i].split(";");
 				var otk_html = "<button></button>";
-				var zeile = "<tr><td>"+arr2[0]+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+arr2[4]+"</td><td>"+arr2[5]+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+arr2[6]+"</div></td><td>"+arr2[7]+"</td></tr>";
-				html = html + zeile;
 				var expires_time = arr2[6];
 				arr_expires_time_new.push(expires_time);
+				var lastlogin_time = arr2[7];
+				arr_lastlogin_time_new.push(lastlogin_time);
+				var zeile = "<tr><td>"+arr2[0]+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+arr2[4]+"</td><td>"+arr2[5]+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+expires_time+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
+				html = html + zeile;
 			}
-			//console.log(html);
 			var content_element = document.getElementById("content");
 			content_element.innerHTML = html;
+
 			arr_expires_time = arr_expires_time_new;
-			refreshExpires(true);
+			arr_lastlogin_time = arr_lastlogin_time_new;
+
+			refreshData(true);
 			if(!once) {
-				setTimeout(refreshData,1000);
+				console.log("set timeout fetchData");
+				setTimeout(fetchData,1000);
 			}
 	    } else {
 		    console.warn(request.statusText, request.responseText);
@@ -55,10 +62,35 @@ function refreshData(once) {
     });
     request.send(data);
 }
+
+function refreshData(once) {
+	refreshExpires(true);
+	refreshLastlogin(true);
+	if(!once) {
+		setTimeout(refreshData,200);
+	}
+}
+
+function refreshLastlogin(once) {
+	for(i=0; i<arr_lastlogin_time.length; i++) {
+		var lastlogin_elem = document.getElementById("lastlogin_"+i);
+		var lastlogin_time = arr_lastlogin_time[i];
+		var timestamp = Math.floor(Date.now() / 1000);
+		var diff = timestamp - lastlogin_time;
+		var diff_html = getTimeHTML(diff);
+		lastlogin_elem.innerHTML = diff_html;
+	}
+	if(!once) {
+		setTimeout(refreshLastlogin,200);
+	}
+}
 function refreshExpires(once) {
-	console.log("refresh Expire");
 	for(i=0; i<arr_expires_time.length; i++) {
 		var expires_elem = document.getElementById("expires_"+i);
+		var isexpired = false;
+		if(expires_elem.innerHTML.localeCompare("-")==0) {
+			isexpired = true;
+		}
 		var expires_time = arr_expires_time[i];
 		var timestamp = Math.floor(Date.now() / 1000);
 		var counter = expires_time - timestamp;
@@ -70,12 +102,38 @@ function refreshExpires(once) {
 		}
 		else {
 			expires_elem.innerHTML = "-";
-			refreshData(true);
+			if(!isexpired) {
+				//fetchData(true);
+			}
 		}
 	}
 	if(!once) {
 		setTimeout(refreshExpires,200);
 	}
+}
+function getTimeHTML(time) {
+	var time_text = "vor "+time+" Sekunde(n)";
+	if(time>=60) {
+		time = Math.floor(time/60);
+		time_text = "vor "+time+" Minute(n)";
+
+		if(time>=60) {
+			time = Math.floor(time/60);
+			time_text = "vor "+time+" Stunde(n)";
+
+			if(time>=24) {
+				time = Math.floor(time/24);
+				time_text = "vor "+time+" Tag(en)";
+
+				if(time>=30) {
+					time = Math.floor(time/30);
+					time_text = "vor "+time+" Monat(en)";
+				}
+			}
+		}
+	}
+	//console.log(time_text);
+	return time_text;
 }
 </script>
 </head>
