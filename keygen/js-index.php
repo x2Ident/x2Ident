@@ -50,13 +50,17 @@ function fetchData(once) {
 				var otk_value = arr2[4];
 				var otk_string = otk_value+"";
 				if(otk_string.length>1) {
-					otk_html = "<input value=\""+otk_string+"\"></input><button onclick=\"removeOTK("+pwid+")\">Key löschen</button>";
+					otk_html = "<input value=\""+otk_string+"\" readonly></input><button onclick=\"removeOTK("+pwid+")\">Key löschen</button>";
 				}
-				var global_html = "<input type=\"checkbox\">";
+				var global_html = "<input type=\"checkbox\" onclick=\"set_global(this,"+pwid+")\">";
 				var global_value = arr2[5];
 				if(global_value==1) {
-					global_html = "<input type=\"checkbox\" checked>";
+					global_html = "<input type=\"checkbox\" onclick=\"set_global(this,"+pwid+")\" checked>";
 				}
+				if(global_value==2) {
+					global_html = "-";
+				}
+				
 				var expires_time = arr2[6];
 				arr_expires_time_new.push(expires_time);
 				var lastlogin_time = arr2[7];
@@ -110,6 +114,29 @@ function removeOTK(OTK_id) {
 	var data = new FormData();
 	data.append("js-id",js_id);
 	data.append("removeOTK-id",OTK_id);
+	var request = new XMLHttpRequest();
+	request.open("POST","jsInterface.php");
+	request.addEventListener('load', function(event) {
+		if ((request.status >= 200) && (request.status < 300)) {
+		    var antwort = request.responseText;
+			//TODO: if error -> alert
+			
+	    } else {
+		    console.warn(request.statusText, request.responseText);
+	    }
+    });
+    request.send(data);
+}
+
+function set_global(checkbox,pwid) {
+	var global_state = 0;
+	if (checkbox.checked) {
+		global_state = 1;
+	}
+	var data = new FormData();
+	data.append("js-id",js_id);
+	data.append("set_global",global_state);
+	data.append("global_otk_id",pwid);
 	var request = new XMLHttpRequest();
 	request.open("POST","jsInterface.php");
 	request.addEventListener('load', function(event) {

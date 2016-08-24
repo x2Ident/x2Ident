@@ -79,6 +79,16 @@ if(isset($_POST['removeOTK-id'])) {
 	$del_id = $_POST['removeOTK-id'];
 	$eintrag = "UPDATE onetimekeys SET pw_active='0', expires='-1' WHERE pwid='$del_id' AND sess_id='$sess_id' ";
 	$mysqli->query($eintrag);
+	die("OK");
+}
+
+//ggf. Global setzen
+if(isset($_POST['set_global'])) {
+	$global_state = $_POST['set_global'];
+	$pwid = $_POST['global_otk_id'];
+	$eintrag = "UPDATE onetimekeys SET pw_global=$global_state WHERE pwid='$pwid' AND sess_id='$sess_id' ";
+	$mysqli->query($eintrag);
+	die("OK");
 }
 
 //Daten abrufen
@@ -119,6 +129,9 @@ foreach ($data as $key => $val) {
 			if($obj->pw_active == 1) {
 	        	$otk = $obj->onetime;
 				$pw_global = $obj->pw_global;
+			}
+			else {
+				$pw_global = "2";
 			}
 	    }
 	
