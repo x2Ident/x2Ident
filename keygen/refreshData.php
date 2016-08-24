@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
@@ -19,7 +16,10 @@ if(strlen($proxy_ip)>1) {
 }
 
 //Get JS id
-$js_id = $_POST['js-id'];
+$js_id = $_GET['js-id'];
+if(strlen($js_id)<1) {
+	die("JS-id not valid.");
+}
 
 include('api.secret.php');
 
@@ -47,6 +47,7 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 			$sess_id = $obj->sess_id;
 			$db_ip = $obj->ip;
 		}
+	}
 
 if(!js_id_valide) {
 	die("JS-id not valid.");
@@ -58,7 +59,7 @@ if(strcmp($ip,$db_ip)) {
 
 //Daten abrufen
 $ch = curl_init();
-$url = str_replace("@@user@@",$_SESSION['user'],$api_url);
+$url = str_replace("@@user@@",$user,$api_url);
 
 //URL übergeben
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -184,7 +185,7 @@ foreach ($data as $key => $val) {
 	$website = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
 	$username = $val['login'];
 	$lastlogin = 0;
-	$expires = -1;
+	$expires = 0;
 	$otk = "-";
 	$pw_global = "0";
     $sess_id = $_SESSION['sess_id'];
@@ -249,17 +250,17 @@ foreach ($data as $key => $val) {
 	$diff2 = $expires-$timestamp;
 	$expires_text = $diff2." Sekunden";
     
-	$sess_id = $_SESSION['sess_id'];
 	
 	//echo "expires: ".$expires."; timestamp: ".$timestamp."|";
 	if($expires<$timestamp-1) {
+		//maybe delete real passwort due to security?
 		$eintrag = "UPDATE onetimekeys SET pw_active='0' WHERE pwid = '$id' AND sess_id='$sess_id'";
 		$mysqli->query($eintrag);
-		$otk = str_replace("@@id@@",$id,$form_keyerstellen);
+		$otk = "-";
 		$expires_text = "-";
 	}
 
-	$output = "$id;$title;$website;$expires;$pw_global;$last_login|";
+	$output = "$id;$title;$website;$otk;$expires;$pw_global;$last_login|";
 	echo $output;
 
 /*
@@ -276,8 +277,10 @@ foreach ($data as $key => $val) {
 */
 
 }
+
+echo "OK";
 //var_dump($data);
-echo " </tbody></table></body></html>";
+//echo " </tbody></table></body></html>";
 
 //Sonderzeichen (auch Satzzeichen) verursachen beim Login Probleme
 function rand_char($length) {
@@ -289,3 +292,4 @@ function rand_char($length) {
 	}
 	return $random;
 }
+?>

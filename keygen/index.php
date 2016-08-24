@@ -250,3 +250,5 @@ function rand_char($length) {
 	}
 	return $random;
 }
+
+?>
