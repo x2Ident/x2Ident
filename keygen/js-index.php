@@ -37,15 +37,23 @@ function fetchData(once) {
 			var arr_lastlogin_time_new = [];
 			for(i=0; i<arr1.length-1; i++) {
 				var arr2 = arr1[i].split(";");
-				var otk_html = "<button></button>";
+				var otk_html = "<button>Key erstellen</button>";
+				var otk_value = arr2[4];
+				var otk_string = otk_value+"";
+				if(otk_string.length>1) {
+					otk_html = "<input value=\""+otk_string+"\"></input><button>Key löschen</button>";
+				}
+				var global_html = "<input type=\"checkbox\">";
+				//if arr2[5]
 				var expires_time = arr2[6];
 				arr_expires_time_new.push(expires_time);
 				var lastlogin_time = arr2[7];
 				arr_lastlogin_time_new.push(lastlogin_time);
-				var zeile = "<tr><td>"+arr2[0]+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+arr2[4]+"</td><td>"+arr2[5]+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+expires_time+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
+				var zeile = "<tr><td>"+arr2[0]+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+otk_html+"</td><td>"+global_html+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+""+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
 				html = html + zeile;
 			}
 			var content_element = document.getElementById("content");
+			var last_html = content_element.innerHTML;
 			content_element.innerHTML = html;
 
 			arr_expires_time = arr_expires_time_new;
@@ -53,7 +61,7 @@ function fetchData(once) {
 
 			refreshData(true);
 			if(!once) {
-				console.log("set timeout fetchData");
+				//console.log("set timeout fetchData");
 				setTimeout(fetchData,1000);
 			}
 	    } else {
@@ -87,10 +95,6 @@ function refreshLastlogin(once) {
 function refreshExpires(once) {
 	for(i=0; i<arr_expires_time.length; i++) {
 		var expires_elem = document.getElementById("expires_"+i);
-		var isexpired = false;
-		if(expires_elem.innerHTML.localeCompare("-")==0) {
-			isexpired = true;
-		}
 		var expires_time = arr_expires_time[i];
 		var timestamp = Math.floor(Date.now() / 1000);
 		var counter = expires_time - timestamp;
@@ -102,8 +106,8 @@ function refreshExpires(once) {
 		}
 		else {
 			expires_elem.innerHTML = "-";
-			if(!isexpired) {
-				//fetchData(true);
+			if(counter == 0) {
+				fetchData(true);
 			}
 		}
 	}
@@ -112,6 +116,7 @@ function refreshExpires(once) {
 	}
 }
 function getTimeHTML(time) {
+	//möglw. Bug
 	var time_text = "vor "+time+" Sekunde(n)";
 	if(time>=60) {
 		time = Math.floor(time/60);
