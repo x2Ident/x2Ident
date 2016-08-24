@@ -16,7 +16,10 @@ header("Location: login");
 <head>
 <title>xIdent: Keygen JS demo</title>
 <link rel="stylesheet" href="pure-io.css">
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
+<style>
+.otk_input { width:150px }
+</style>
 <script>
 var last_html;
 var arr_expires_time = [];
@@ -50,7 +53,7 @@ function fetchData(once) {
 				var otk_value = arr2[4];
 				var otk_string = otk_value+"";
 				if(otk_string.length>1) {
-					otk_html = "<input value=\""+otk_string+"\" readonly></input><button onclick=\"removeOTK("+pwid+")\">Key löschen</button>";
+					otk_html = "<input class=\"otk_input\" value=\""+otk_string+"\" readonly></input><button onclick=\"removeOTK("+pwid+")\">Löschen</button>";
 				}
 				var global_html = "<input type=\"checkbox\" onclick=\"set_global(this,"+pwid+")\">";
 				var global_value = arr2[5];
@@ -223,7 +226,11 @@ function getTimeHTML(time) {
 </script>
 </head>
 <body>
-<h1>x2Ident Keygen</h1>
+<h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
+<?php
+echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
+echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
+?>
 <div id="content">
 bitte warten...
 </div>
