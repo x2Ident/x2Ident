@@ -118,7 +118,7 @@ foreach ($data as $key => $val) {
 	$lastlogin = 0;
 	$expires = 0;
 	$otk = "-";
-	$pw_global = "0";
+	$pw_global = "2";
 	
 	//Get OTKs from db
 	$query = "SELECT onetime, expires, pw_active, pw_global FROM onetimekeys WHERE pwid='$id' AND sess_id='$sess_id'";
