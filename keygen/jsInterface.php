@@ -17,7 +17,7 @@ if(strlen($proxy_ip)>1) {
 
 //Get JS id
 $js_id = $_POST['js-id'];
-if(strlen($js_id)<1) {
+if(strlen($js_id)<5) {
 	die("JS-id not valid.");
 }
 
@@ -53,8 +53,32 @@ if(!js_id_valide) {
 	die("JS-id not valid.");
 }
 
-if(strcmp($ip,$db_ip)) {
+if(strcmp($ip,$db_ip)!=0) {
 	//evtl. Warnung
+}
+
+//ggf. OTK generieren und in DB schreiben
+if(isset($_POST['createOTK-id'])) {
+	$pwid = $_POST['createOTK-id'];
+	$real_password = $data[$pwid]['pw'];
+	$timestamp = time();
+	$key = rand_char(10);
+	$eintrag = "DELETE FROM onetimekeys WHERE pwid=$pwid AND ((user='$user' AND sess_id='$sess_id') OR expires<$timestamp)";
+	//echo $eintrag;
+	$mysqli->query($eintrag);
+	$timestamp = time();
+	$expires = $timestamp + 60;
+	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires) VALUES ('$user', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires')";
+	//echo $eintrag;
+	$mysqli->query($eintrag);
+	die("OK");
+}
+
+//ggf. OTK löschen
+if(isset($_POST['removeOTK-id'])) {
+	$del_id = $_POST['removeOTK-id'];
+	$eintrag = "UPDATE onetimekeys SET pw_active='0', expires='-1' WHERE pwid='$del_id' AND sess_id='$sess_id' ";
+	$mysqli->query($eintrag);
 }
 
 //Daten abrufen

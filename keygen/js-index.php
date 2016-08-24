@@ -21,6 +21,7 @@ header("Location: login");
 var last_html;
 var arr_expires_time = [];
 var arr_lastlogin_time = [];
+var arr_pwid = [];
 var js_id = "hvdrjqY9Cs";
 fetchData(false);
 refreshData(false);
@@ -37,13 +38,19 @@ function fetchData(once) {
 			var arr1 = antwort.split("|");
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];
+			var arr_pwid_new = [];
 			for(i=0; i<arr1.length-1; i++) {
+
 				var arr2 = arr1[i].split(";");
-				var otk_html = "<button onclick=\"createOTK("+i+")\">Key erstellen</button>";
+
+				var pwid = arr2[0];
+				arr_pwid_new.push(pwid);
+
+				var otk_html = "<button onclick=\"createOTK("+pwid+")\">Key erstellen</button>";
 				var otk_value = arr2[4];
 				var otk_string = otk_value+"";
 				if(otk_string.length>1) {
-					otk_html = "<input value=\""+otk_string+"\"></input><button onclick=\"removeOTK("+i+")\">Key löschen</button>";
+					otk_html = "<input value=\""+otk_string+"\"></input><button onclick=\"removeOTK("+pwid+")\">Key löschen</button>";
 				}
 				var global_html = "<input type=\"checkbox\">";
 				var global_value = arr2[5];
@@ -54,7 +61,7 @@ function fetchData(once) {
 				arr_expires_time_new.push(expires_time);
 				var lastlogin_time = arr2[7];
 				arr_lastlogin_time_new.push(lastlogin_time);
-				var zeile = "<tr><td>"+arr2[0]+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+otk_html+"</td><td>"+global_html+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+""+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
+				var zeile = "<tr><td>"+pwid+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+otk_html+"</td><td>"+global_html+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+""+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
 				html = html + zeile;
 			}
 			var content_element = document.getElementById("content");
@@ -67,6 +74,7 @@ function fetchData(once) {
 			last_html = html;
 			arr_expires_time = arr_expires_time_new;
 			arr_lastlogin_time = arr_lastlogin_time_new;
+			arr_pwid = arr_pwid_new;
 
 			refreshData(true);
 			if(!once) {
@@ -84,6 +92,24 @@ function createOTK(OTK_id) {
 	var data = new FormData();
 	data.append("js-id",js_id);
 	data.append("createOTK-id",OTK_id);
+	var request = new XMLHttpRequest();
+	request.open("POST","jsInterface.php");
+	request.addEventListener('load', function(event) {
+		if ((request.status >= 200) && (request.status < 300)) {
+		    var antwort = request.responseText;
+			//TODO: if error -> alert
+			
+	    } else {
+		    console.warn(request.statusText, request.responseText);
+	    }
+    });
+    request.send(data);
+}
+
+function removeOTK(OTK_id) {
+	var data = new FormData();
+	data.append("js-id",js_id);
+	data.append("removeOTK-id",OTK_id);
 	var request = new XMLHttpRequest();
 	request.open("POST","jsInterface.php");
 	request.addEventListener('load', function(event) {
