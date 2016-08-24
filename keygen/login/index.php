@@ -48,15 +48,17 @@ if(isset($_POST['auth_code'])) {
 	if(strlen($secret)>0) {
 		$checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
 		if ($checkResult) {
-			$sess_id = rand_char(10);
-			$js_id = rand_char(10);
+			$timestamp = time();
+			$expires = $timestamp + 60*60; //Auf 1h limitieren
+			$sess_id = rand_char(30);
+			$js_id = rand_char(30);
             $user_agent = $_SERVER ['HTTP_USER_AGENT'];
             $_SESSION['sess_id'] = $sess_id;
             $_SESSION['js-id'] = $js_id;
 			$_SESSION['user'] = $username;
 			$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
 			$mysqli->query($eintrag);
-			$eintrag = "INSERT INTO session_user (user,ip,sess_id,js_id,user_agent) VALUES ('$username','$ip','$sess_id','$js_id','$user_agent')";
+			$eintrag = "INSERT INTO session_user (user,ip,sess_id,js_id,user_agent, expires) VALUES ('$username','$ip','$sess_id','$js_id','$user_agent','$expires')";
             echo $ip;
 			$mysqli->query($eintrag);
 			header("Location: ../");
@@ -73,14 +75,12 @@ if(isset($_POST['auth_code'])) {
 	}
 }
 else {
-	//default case
+	//default case, when page is initially loaded
 	printLoginForm("");
 }
 
 function login_failed($login_form) {
-	$_SESSION['user'] = null;
-	$_SESSION['sess_id'] = null;
-	$_SESSION['js-id'] = null;
+	session_unset();
 }
 
 function printLoginForm($message) {
