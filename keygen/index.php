@@ -91,6 +91,10 @@ echo '<html><head>
 <meta http-equiv="refresh" content="5">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
+var current_url = window.location;
+var new_url = current_url + "/../js-index.php";
+window.location.replace(new_url);
+
 window.setTimeout(countdown_expire, 1000);
 function countdown_expire() {
     var elements = document.getElementsByClassName("expires");
