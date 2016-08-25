@@ -76,6 +76,7 @@ $data = json_decode($result,true);
 if(isset($_POST['createOTK-id'])) {
 	$pwid = $_POST['createOTK-id'];
 	$real_password = $data[$pwid]['pw'];
+	$pw_url = $data[$pwid]['url'];
 	$timestamp = time();
 	$key = rand_char(10);
 	$eintrag = "DELETE FROM onetimekeys WHERE pwid=$pwid AND ((user='$user' AND sess_id='$sess_id') OR expires<$timestamp)";
@@ -83,7 +84,7 @@ if(isset($_POST['createOTK-id'])) {
 	$mysqli->query($eintrag);
 	$timestamp = time();
 	$expires = $timestamp + 60;
-	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires) VALUES ('$user', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires')";
+	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires, url) VALUES ('$user', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires', '$pw_url')";
 	//echo $eintrag;
 	$mysqli->query($eintrag);
 	die("OK");

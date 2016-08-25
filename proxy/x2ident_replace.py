@@ -42,13 +42,13 @@ def request(flow):
             print("berechtigt")
     if berechtigt==False:
         print(client_ip+": nicht berechtigt")
-        if "noscio.eu/xIdent" not in flow.request.url:
+        if "noscio.eu/x2ident_raw" not in flow.request.url:
             if "mitm.it" not in flow.request.url:
                 # answer with a redirect to the landing page
                 resp = HTTPResponse(
-                    b"HTTP/1.1", 303, b"See Other \nLocation: https://noscio.eu/xIdent",
-                    Headers(Location="https://noscio.eu/xIdent"),
-                    b"<html><head><title>Access Denied</title></head><body><h1>Unberechtigter Zugriff</h1> <a href=\"https://noscio.eu/xIdent\">Login: https://noscio.eu/xIdent</a></body></html>"
+                    b"HTTP/1.1", 303, b"See Other \nLocation: https://noscio.eu/x2ident",
+                    Headers(Location="https://noscio.eu/x2ident_raw"),
+                    b"<html><head><title>Access Denied</title></head><body><h1>Unberechtigter Zugriff</h1> <a href=\"https://noscio.eu/x2Ident_raw\">Login: https://noscio.eu/x2dent_raw</a></body></html>"
                 )
                 flow.reply.send(resp)
                 print("redirect to xIdent landing page")
@@ -61,30 +61,40 @@ def request(flow):
         pwid = str(row[0])
         expires = row[3]
         url = row[4]
-        url_pattern = "://"+url.split("://")[1] # ignore protocol
+        url_valide = False
+        url_pattern = ""
         pw_global = int(float(row[5]))
-        if(pw_global!=1):
-            if url_pattern in flow.request.url:
-                if expires<time.time():
-                    query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
+        if(len(url)==0):
+            url_valide = True
+        if(pw_global==1):
+            url_valide = True
+        try:
+            url_pattern = "://"+url.split("://")[1] # ignore protocol
+        except:
+            print("failed generate url_pattern: "+url)
+            url_valide = True
+        if url_pattern in flow.request.url:
+            url_valide = True
+        if url_valide:            
+            if expires<time.time():
+                query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
+                cur.execute(query)
+                print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
+            else:
+                if row[1] in flow.request.content:
+                    pwid = str(row[0])
+                    print("replaced "+str(row[1])+" with "+str(row[2]))
+                    flow.request.content = flow.request.content.replace(
+                        str(row[1]),
+	                    str(row[2])
+                    )
+                    timestamp = str(time.time())
+                    query = "UPDATE onetimekeys SET pw_active=0, expires=0 WHERE pwid="+str(pwid)
                     cur.execute(query)
-                    print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
-                else:
-                    if row[1] in flow.request.content:
-                        pwid = str(row[0])
-                        print("replaced "+str(row[1])+" with "+str(row[2]))
-                        
-                        flow.request.content = flow.request.content.replace(
-                            str(row[1]),
-	                        str(row[2])
-                        )
-                        timestamp = str(time.time())
-                        query = "UPDATE onetimekeys SET pw_active=0, expires=0 WHERE pwid="+str(pwid)
-                        cur.execute(query)
-                        print("deleted item because it was used");
-                        query = "DELETE FROM history WHERE pwid="+pwid
-                        cur.execute(query)
-                        query = "INSERT INTO history (pwid, last_login) VALUES ("+pwid+","+timestamp+")"
-                        cur.execute(query)            
+                    print("deleted item because it was used");
+                    query = "DELETE FROM history WHERE pwid="+pwid
+                    cur.execute(query)
+                    query = "INSERT INTO history (pwid, last_login) VALUES ("+pwid+","+timestamp+")"
+                    cur.execute(query)            
     db.commit()
     cur.close()
