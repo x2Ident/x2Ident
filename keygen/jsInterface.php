@@ -58,6 +58,20 @@ if(strcmp($ip,$db_ip)!=0) {
 	die("IP-Address not valid.");
 }
 
+//Daten abrufen
+$ch = curl_init();
+$url = str_replace("@@user@@",$user,$api_url);
+
+//URL übergeben
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//Parameter für Netzwerk-Anfrage konfigurieren
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+
+//Anfrage durchführen und Antwort in $result speichern
+$result = curl_exec ($ch);
+$data = json_decode($result,true);
+
 //ggf. OTK generieren und in DB schreiben
 if(isset($_POST['createOTK-id'])) {
 	$pwid = $_POST['createOTK-id'];
@@ -91,21 +105,6 @@ if(isset($_POST['set_global'])) {
 	$mysqli->query($eintrag);
 	die("OK");
 }
-
-//Daten abrufen
-$ch = curl_init();
-$url = str_replace("@@user@@",$user,$api_url);
-
-//URL übergeben
-curl_setopt($ch, CURLOPT_URL, $url);
-
-//Parameter für Netzwerk-Anfrage konfigurieren
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
-
-//Anfrage durchführen und Antwort in $result speichern
-$result = curl_exec ($ch);
-$data = json_decode($result,true);
-
 
 $id = 0;
 foreach ($data as $key => $val) {

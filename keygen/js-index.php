@@ -58,6 +58,8 @@ function fetchData(once) {
 			var arr1 = antwort.split("|");
 			if(arr1[0].includes("[xi]_jsif")) {
 				content_element.innerHTML = arr1[1];
+				var new_url = current_url + "/../login/";
+				window.location.replace(new_url);
 			}
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];
