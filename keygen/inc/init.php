@@ -8,6 +8,20 @@ if (mysqli_connect_errno()) {
     exit();
 }
 $timestamp = time();
+$query = "SELECT * FROM session_user WHERE expires<$timestamp";
+if ($result = $mysqli->query($query)) {
+	
+	    /* fetch object array */
+	    while ($obj = $result->fetch_object()) {
+			$sess_id = $obj->sess_id;			
+			$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
+			$mysqli->query($eintrag);
+		}
+    }
+    /* free result set */
+    $result->close();
+}
+
 $query = "DELETE FROM session_user WHERE expires<$timestamp";
 $mysqli->query($query);
 ?>

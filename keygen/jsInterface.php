@@ -7,8 +7,6 @@ session_start();
 require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
-	header("Location: login");
-	//var_dump($_SESSION);
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
