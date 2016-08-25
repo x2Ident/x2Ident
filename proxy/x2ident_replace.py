@@ -18,6 +18,19 @@ def request(flow):
 
     # config ende
 
+    # load config from DB
+    cur.execute("SELECT conf_key, conf_value FROM `config`")
+    print("rowcount:"+str(cur.rowcount))
+    for row in cur.fetchall():
+        key = row[0]
+        value = row[1]
+        print("key: "+key)
+        if key == "url_xi_dir":
+            url_xi_dir = value
+
+    print("config loaded");
+
+    print("x2Ident url: "+url_xi_dir)
     url_xi_pattern = ""
     try:
         url_xi_pattern = "://"+url_xi_dir.split("://")[1] # ignore protocol, but not subdomains!
@@ -52,8 +65,8 @@ def request(flow):
             print("berechtigt")
     if berechtigt==False:
         print(client_ip+": nicht berechtigt")
-        if url_xi_pattern not in flow.request.url:
-            if "mitm.it" not in flow.request.url:
+        if url_xi_pattern.lower() not in flow.request.url.lower():
+            if "mitm.it".lower() not in flow.request.url.lower():
                 # answer with a redirect to the landing page
                 resp = HTTPResponse(
                     b"HTTP/1.1", 303, b"See Other \nLocation: "+url_xi_dir,
@@ -85,11 +98,12 @@ def request(flow):
             url_valide = True
         if url_pattern in flow.request.url:
             url_valide = True
-        if url_valide:            
+        if url_valide:
             if expires<time.time():
-                query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
-                cur.execute(query)
-                print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
+                if expires > 0:
+                    query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
+                    cur.execute(query)
+                    print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
             else:
                 if row[1] in flow.request.content:
                     pwid = str(row[0])
