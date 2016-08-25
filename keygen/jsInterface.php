@@ -50,12 +50,12 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 	}
 if(!$js_id_valide) {
 	session_unset();
-	die("JS-id not valid.");
+	die("[xi]_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 if(strcmp($ip,$db_ip)!=0) {
 	session_unset();
-	die("IP-Address not valid.");
+	die("[xi]_IP-Address_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 //Daten abrufen

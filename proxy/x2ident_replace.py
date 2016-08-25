@@ -54,32 +54,37 @@ def request(flow):
                 print("redirect to xIdent landing page")
 
     
-    cur.execute("SELECT pwid, onetime, real_pw, expires FROM `onetimekeys` ")
+    cur.execute("SELECT pwid, onetime, real_pw, expires, url, pw_global FROM `onetimekeys` ")
     replaced = False
     pwid = ""
     for row in cur.fetchall():
         pwid = str(row[0])
         expires = row[3]
-        if expires<time.time():
-            query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
-            cur.execute(query)
-            print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
-        else:
-            if row[1] in flow.request.content:
-                pwid = str(row[0])
-                print("replaced "+str(row[1])+" with "+str(row[2]))
-                
-                flow.request.content = flow.request.content.replace(
-                    str(row[1]),
-	                str(row[2])
-                )
-                timestamp = str(time.time())
-                query = "UPDATE onetimekeys SET pw_active=0, expires=0 WHERE pwid="+str(pwid)
-                cur.execute(query)
-                print("deleted item because it was used");
-                query = "DELETE FROM history WHERE pwid="+pwid
-                cur.execute(query)
-                query = "INSERT INTO history (pwid, last_login) VALUES ("+pwid+","+timestamp+")"
-                cur.execute(query)            
+        url = row[4]
+        url_pattern = "://"+url.split("://")[1] # ignore protocol
+        pw_global = int(float(row[5]))
+        if(pw_global!=1):
+            if url_pattern in flow.request.url:
+                if expires<time.time():
+                    query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
+                    cur.execute(query)
+                    print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
+                else:
+                    if row[1] in flow.request.content:
+                        pwid = str(row[0])
+                        print("replaced "+str(row[1])+" with "+str(row[2]))
+                        
+                        flow.request.content = flow.request.content.replace(
+                            str(row[1]),
+	                        str(row[2])
+                        )
+                        timestamp = str(time.time())
+                        query = "UPDATE onetimekeys SET pw_active=0, expires=0 WHERE pwid="+str(pwid)
+                        cur.execute(query)
+                        print("deleted item because it was used");
+                        query = "DELETE FROM history WHERE pwid="+pwid
+                        cur.execute(query)
+                        query = "INSERT INTO history (pwid, last_login) VALUES ("+pwid+","+timestamp+")"
+                        cur.execute(query)            
     db.commit()
     cur.close()
