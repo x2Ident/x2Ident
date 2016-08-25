@@ -13,8 +13,13 @@ def request(flow):
                      db="xident")        # name of the data base
     cur = db.cursor()
     
+    # delete user session if expired
+    timestamp = time.time()
+	# TODO: also delete OTKs related to session
+    query = "DELETE FROM session_user WHERE expires<"+str(timestamp)
+    cur.execute(query)
+
     # write real ip to header
-    # flow.request.headers["newheader"] = "foo"
     client_ip_wport = str(flow.client_conn.address)
     client_ip = client_ip_wport.split(":")[0]
     #print(client_ip)
@@ -23,7 +28,6 @@ def request(flow):
         user_agent = flow.request.headers["User-Agent"]
     except:
         user_agent = "none"
-    #print(user_agent)
 
 	# check if user is on a xident page
     if "noscio.eu/xIdent" in flow.request.url:
@@ -40,6 +44,7 @@ def request(flow):
         print(client_ip+": nicht berechtigt")
         if "noscio.eu/xIdent" not in flow.request.url:
             if "mitm.it" not in flow.request.url:
+                # answer with a redirect to the landing page
                 resp = HTTPResponse(
                     b"HTTP/1.1", 303, b"See Other \nLocation: https://noscio.eu/xIdent",
                     Headers(Location="https://noscio.eu/xIdent"),
@@ -49,10 +54,6 @@ def request(flow):
                 print("redirect to xIdent landing page")
 
     
-    
-
-    # query = "INSERT INTO onetimekeys (pwid, onetime, real_pw, pw_active) VALUES ('100', 'asdfjkö', 'imagine','1')"
-    # cur.execute(query)
     cur.execute("SELECT pwid, onetime, real_pw, expires FROM `onetimekeys` ")
     replaced = False
     pwid = ""
@@ -62,7 +63,7 @@ def request(flow):
         if expires<time.time():
             query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
             cur.execute(query)
-            # print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires));
+            print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
         else:
             if row[1] in flow.request.content:
                 pwid = str(row[0])

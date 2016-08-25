@@ -5,6 +5,7 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+require_once("../inc/init.php");
 
 //Get user IP address
 $ip = "";
@@ -20,13 +21,6 @@ if(strlen($proxy_ip)>1) {
 }
 
 //var_dump(getallheaders());
-
-$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
-/* check connection */
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
 
 require_once '../inc/GoogleAuthenticator.php';
 $secret = "";

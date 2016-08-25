@@ -5,6 +5,7 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
 	header("Location: login");
@@ -12,15 +13,6 @@ if(strlen($_SESSION['user'])<1) {
 }
 
 include('api.secret.php');
-
-$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
-
-//Check DB connection
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
-
 
 //ggf. Logout
 if(isset($_POST['logout'])) {

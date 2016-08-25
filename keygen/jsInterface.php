@@ -1,7 +1,16 @@
 <?php
+session_start();
 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
+
+require_once("inc/init.php");
+
+if(strlen($_SESSION['user'])<1) {
+	header("Location: login");
+	//var_dump($_SESSION);
+	die('Bitte zuerst <a href="login">einloggen</a>');
+}
 
 //Get user IP address
 $ip = "";
@@ -23,14 +32,6 @@ if(strlen($js_id)<5) {
 }
 
 include('api.secret.php');
-
-$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
-
-//Check DB connection
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
 
 //Check js_id
 $js_id_valide = false;
@@ -194,6 +195,7 @@ foreach ($data as $key => $val) {
 	}
 
 	$output = "$id;$title;$url;$username;$otk;$pw_global;$expires;$lastlogin|";
+	$output = html_entity_decode($output);
 	echo $output;
 
 }

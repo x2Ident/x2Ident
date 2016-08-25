@@ -11,13 +11,7 @@ if(strlen($_SESSION['user'])<1) {
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
-$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
-
-//Check DB connection
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
+require_once("inc/init.php");
 
 //ggf. Logout
 if(isset($_POST['logout'])) {
