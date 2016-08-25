@@ -19,7 +19,6 @@ if(isset($_POST['logout'])) {
 	//TODO: deactivate all OTKs
     $sess_id = $_SESSION['sess_id'];
 	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
-    //echo $eintrag;
 	$mysqli->query($eintrag);
 	session_unset();
 	header("Location: login");

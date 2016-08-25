@@ -52,9 +52,13 @@ function fetchData(once) {
 	request.open("POST","jsInterface.php");
 	request.addEventListener('load', function(event) {
 		if ((request.status >= 200) && (request.status < 300)) {
+			var content_element = document.getElementById("content");
 		    var antwort = request.responseText;
-			var html = "<table  class=\"pure-table\"><thead><tr><th>ID</th><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
+			var html = "<table  class=\"pure-table\"><thead><tr><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
 			var arr1 = antwort.split("|");
+			if(arr1[0].includes("[xi]_jsif")) {
+				content_element.innerHTML = arr1[1];
+			}
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];
 			var arr_pwid_new = [];
@@ -79,15 +83,16 @@ function fetchData(once) {
 				if(global_value==2) {
 					global_html = "-";
 				}
+				var website_url = arr2[2]
+				var website_html = "<a href=\""+website_url+"\"  target=\"_blank\">"+website_url+"</a>";
 				
 				var expires_time = arr2[6];
 				arr_expires_time_new.push(expires_time);
 				var lastlogin_time = arr2[7];
 				arr_lastlogin_time_new.push(lastlogin_time);
-				var zeile = "<tr><td>"+pwid+"</td><td>"+arr2[1]+"</td><td>"+arr2[2]+"</td><td>"+arr2[3]+"</td><td>"+otk_html+"</td><td>"+global_html+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+""+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
+				var zeile = "<tr><td>"+arr2[1]+"</td><td>"+website_html+"</td><td>"+arr2[3]+"</td><td>"+otk_html+"</td><td>"+global_html+"</td><td><div id=\"expires_"+i+"\" class=\"expires\">"+""+"</div></td><td><div id=\"lastlogin_"+i+"\" class=\"lastlogin\">"+""+"</div></td></tr>";
 				html = html + zeile;
 			}
-			var content_element = document.getElementById("content");
 			if(html.localeCompare(last_html)==0) {
 				//console.log("gleich");
 			}

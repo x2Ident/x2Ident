@@ -20,8 +20,12 @@ if ($result = $mysqli->query($query)) {
     }
     /* free result set */
     $result->close();
-}
 
 $query = "DELETE FROM session_user WHERE expires<$timestamp";
 $mysqli->query($query);
+
+function contains($needle, $haystack)
+{
+    return strpos($haystack, $needle) !== false;
+}
 ?>

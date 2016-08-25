@@ -7,7 +7,7 @@ session_start();
 require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	die('[xi]_jsif_not-logged-in|Bitte zuerst <a href="login">einloggen</a>');
 }
 
 //Get user IP address
