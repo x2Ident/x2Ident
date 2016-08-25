@@ -69,7 +69,7 @@ def request(flow):
         if(pw_global==1):
             url_valide = True
         try:
-            url_pattern = "://"+url.split("://")[1] # ignore protocol
+            url_pattern = "://"+url.split("://")[1] # ignore protocol, but not subdomains!
         except:
             print("failed generate url_pattern: "+url)
             url_valide = True
