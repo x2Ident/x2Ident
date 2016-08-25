@@ -6,13 +6,23 @@ from mitmproxy.models import HTTPResponse
 from netlib.http import Headers
 
 def request(flow):
+    # config start
 
     db = MySQLdb.connect(host="localhost",    # your host, usually localhost
                      user="xident",         # your username
                      passwd="jugendhackt",  # your password
                      db="xident")        # name of the data base
     cur = db.cursor()
-    
+
+    url_xi_dir = "https://noscio.eu/x2Ident_raw"
+
+    # config ende
+
+    url_xi_pattern = ""
+    try:
+        url_xi_pattern = "://"+url_xi_dir.split("://")[1] # ignore protocol, but not subdomains!
+    except:
+        url_xi_pattern = url_xi_dir
     # delete user session if expired
     timestamp = time.time()
 	# TODO: also delete OTKs related to session
@@ -30,7 +40,7 @@ def request(flow):
         user_agent = "none"
 
 	# check if user is on a xident page
-    if "noscio.eu/xIdent" in flow.request.url:
+    if url_xi_pattern in flow.request.url:
         return flow
 
     # herausfinden, ob Client zur Nutzung berechtigt ist
@@ -42,13 +52,13 @@ def request(flow):
             print("berechtigt")
     if berechtigt==False:
         print(client_ip+": nicht berechtigt")
-        if "noscio.eu/x2ident_raw" not in flow.request.url:
+        if url_xi_pattern not in flow.request.url:
             if "mitm.it" not in flow.request.url:
                 # answer with a redirect to the landing page
                 resp = HTTPResponse(
-                    b"HTTP/1.1", 303, b"See Other \nLocation: https://noscio.eu/x2ident",
-                    Headers(Location="https://noscio.eu/x2ident_raw"),
-                    b"<html><head><title>Access Denied</title></head><body><h1>Unberechtigter Zugriff</h1> <a href=\"https://noscio.eu/x2Ident_raw\">Login: https://noscio.eu/x2dent_raw</a></body></html>"
+                    b"HTTP/1.1", 303, b"See Other \nLocation: "+url_xi_dir,
+                    Headers(Location=url_xi_dir),
+                    b"<html><head><title>Access Denied</title></head><body><h1>Unberechtigter Zugriff</h1> <a href=\""+url_xi_dir+"\">Login: "+url_xi_dir+"</a></body></html>"
                 )
                 flow.reply.send(resp)
                 print("redirect to xIdent landing page")

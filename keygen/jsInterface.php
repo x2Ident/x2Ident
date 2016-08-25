@@ -1,4 +1,6 @@
 <?php
+//TODO: gründliches code cleanup
+
 session_start();
 
 //error_reporting(E_ALL);
