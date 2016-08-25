@@ -4,14 +4,16 @@ import time
 import MySQLdb
 from mitmproxy.models import HTTPResponse
 from netlib.http import Headers
+import config
 
 def request(flow):
     # config start
+    conf = config.config()
 
-    db = MySQLdb.connect(host="localhost",    # your host, usually localhost
-                     user="xident",         # your username
-                     passwd="jugendhackt",  # your password
-                     db="xident")        # name of the data base
+    db = MySQLdb.connect(host=conf.host(),    # your host, usually localhost
+                     user=conf.user(),         # your username
+                     passwd=conf.password(),  # your password
+                     db=conf.database())        # name of the data base
     cur = db.cursor()
 
     url_xi_dir = "https://noscio.eu/x2Ident_raw"

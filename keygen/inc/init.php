@@ -1,6 +1,6 @@
 <?php
 
-$mysqli = new mysqli("localhost", "xident", "jugendhackt", "xident");
+$mysqli = new mysqli($host, $database, $password, $database);
 
 //Check DB connection
 if (mysqli_connect_errno()) {

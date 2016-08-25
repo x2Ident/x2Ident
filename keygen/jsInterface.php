@@ -6,6 +6,7 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+require_once("inc/config.php");
 require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
