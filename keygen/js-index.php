@@ -192,6 +192,9 @@ function refreshLastlogin(once) {
 		var timestamp = Math.floor(Date.now() / 1000);
 		var diff = timestamp - lastlogin_time;
 		var diff_html = getTimeHTML(diff);
+		if(lastlogin_time==0) {
+			diff_html = "noch nie";
+		}
 		lastlogin_elem.innerHTML = diff_html;
 	}
 	if(!once) {
