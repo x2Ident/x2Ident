@@ -80,7 +80,7 @@ body a:hover,body a{
     text-transform: uppercase;
     color: #fff;
     padding: .7em;
-    background:#2B57EE;
+    background:#61993b;
     text-align: center;
 }
 .w3l_main_grid1_w3ls_sub h3{
@@ -126,7 +126,7 @@ body a:hover,body a{
 	text-transform:capitalize;
 }
 .w3l_main_grid1_w3ls label span{
-	color:#2B57EE;
+	color:#61993b;
 }
 .checkbox {
     position: relative;
@@ -178,7 +178,7 @@ body a:hover,body a{
     border: none;
     width: 100%;
     font-family: 'Ubuntu', sans-serif;
-    background:#2B57EE;
+    background:#61993b;
     cursor: pointer;
     margin:1.5em 0 0;
 }

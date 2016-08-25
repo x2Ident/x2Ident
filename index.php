@@ -1,5 +1,5 @@
 <!--
-Author: W3layouts
+Author (Design): W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
@@ -27,23 +27,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<a href="admin">
 				<div class="w3l_main_grid1_w3ls w3l_main_grid1_w3ls_sub">
 					<h3>Admin</h3>
-					<div class="w3l_main_grid1_w3ls_grid">
-						Administrate your passwords. Use only in a secure environment.
-					</div>
+					<font color="black">
+						<div class="w3l_main_grid1_w3ls_grid">
+							Administrate your passwords. Use only in a secure environment.
+						</div>
+					</font>
 				</div>
 			</a>
 			<a href="keygen">
 				<div class="w3l_main_grid1_w3ls">
 					<h3>Keygen</h3>
-					<div class="w3l_main_grid1_w3ls_grid">
-						Log in with one-time-keys in a potentially unsecure environment.					
-					</div>
+					<font color="black">
+						<div class="w3l_main_grid1_w3ls_grid">
+							Log in with one-time-keys in a potentially unsecure environment.					
+						</div>
+					</font>
 			</div>
 			<div class="clear"> </div>
 		</div>
 		</center>
 		<div class="wthree_copyright">
-			<p>© 2016 x2Ident | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+			<p><font color="white"> © 2016 x2Ident </font> <font color="gray">| Design Template by <a href="http://w3layouts.com"><font color="gray">W3layouts</a></font></font></p> 
 		</div>
 	</div>
 </body>
