@@ -9,7 +9,7 @@ Until the first release this repository will be experimental. So we do not recom
 * clone repository
 * change urls in proxy/* (they should point to your x2Ident directory on your server)
 * create a user in mysql (e.g. x2ident) and a database (e.g. x2ident)
-* create tables in database (you must find out the structure by the source, because at the moment we change it often)
+* import database structure from "install/x2ident_db_schema.sql"
 * change db credentials in proxy/* and keygen/*
 * open admin/index.php in your browser and follow the instructions
 * cd mitmproxy
