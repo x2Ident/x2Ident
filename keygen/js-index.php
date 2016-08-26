@@ -63,9 +63,13 @@ function fetchData(once) {
 			var html = "<table  class=\"pure-table\"><thead><tr><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
 			var arr1 = antwort.split("|");
 			if(arr1[0].includes("[xi]_jsif")) {
+				console.log("debug1");
 				content_element.innerHTML = arr1[1];
+				var current_url = window.location;
 				var new_url = current_url + "/../login/";
 				window.location.replace(new_url);
+				setTimeout(fetchData,1000);
+				return;
 			}
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];

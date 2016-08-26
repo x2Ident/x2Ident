@@ -33,7 +33,7 @@ if(strlen($proxy_ip)>1) {
 //Get JS id
 $js_id = $_POST['js-id'];
 if(strlen($js_id)<5) {
-	die("JS-id not valid.");
+	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 include('api.secret.php');
@@ -57,7 +57,7 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 	}
 if(!$js_id_valide) {
 	session_unset();
-	die("[xi]_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 if(strcmp($ip,$db_ip)!=0) {
