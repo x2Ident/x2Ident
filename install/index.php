@@ -11,8 +11,6 @@ if(!isset($_POST['start_install'])) {
 	';
 	die();
 }
-else {
-}
 
 // get url to working directory
 $currentURL = curPageURL();
