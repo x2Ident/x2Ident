@@ -46,3 +46,7 @@ we are working on an install script ;-)
 * Generate one time key
 * set global if you want to use the one time key an another url as displayed (another subdomain e.g. www.example.com instead of example.com means also a different url; x2Ident checks, wether the url begins with the pattern, but ignores the protocol); that is due to security reasons. See issue #17
 * Login with your username and your one time key on the website
+
+## Contribute
+* Feel free to share your feedback, code etc. with us
+* Happy coding!
