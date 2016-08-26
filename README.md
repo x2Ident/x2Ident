@@ -5,7 +5,7 @@ x2Ident is the worlds first login technique, which protects users on every websi
 Until the first release this repository will be experimental. So we do not recommend to use x2Ident in production in this time.
 
 ## Installation
-* (install Apache2, mysql, php)
+* (install Apache2, mysql, php, python, pip, virtualenv)
 * clone repository
 * change urls in proxy/* (they should point to your x2Ident directory on your server)
 * create a user in mysql (e.g. x2ident) and a database (e.g. x2ident)
