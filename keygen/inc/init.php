@@ -1,5 +1,7 @@
 <?php
 $config = array();
+$config_default = array();
+$config_info = array();
 
 $mysqli = new mysqli($host, $database, $password, $database);
 
@@ -25,24 +27,24 @@ if ($result = $mysqli->query($query)) {
 $query = "DELETE FROM session_user WHERE expires<$timestamp";
 $mysqli->query($query);
 
-load_conf();
-
-function load_conf() {
 //Load config
 $config = array();
-$query = "SELECT conf_key, conf_value FROM config";
-if ($result = $GLOBALS['mysqli']->query($query)) {
+$query = "SELECT * FROM config";
+if ($result = $mysqli->query($query)) {
 	
 	    /* fetch object array */
 	    while ($obj = $result->fetch_object()) {
-			$conf_key = $obj->conf_key;			
+			$conf_key = $obj->conf_key;
 			$conf_value = $obj->conf_value;
-			$GLOBALS['config'][$conf_key] = $conf_value;
+			$conf_default = $obj->conf_default;
+			$conf_info = $obj->conf_info;
+			$config[$conf_key] = $conf_value;
+			$config_default[$conf_key] = $conf_default;
+			$config_info[$conf_key] = $conf_info;
 		}
     }
     /* free result set */
     $result->close();
-}
 
 function contains($needle, $haystack)
 {

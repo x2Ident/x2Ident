@@ -2,15 +2,15 @@
 
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 require_once("../inc/config.php");
 require_once("../inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
 	header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	die('Bitte zuerst <a href="../login">einloggen</a>');
 }
 
 //ggf. Logout
@@ -20,8 +20,8 @@ if(isset($_POST['logout'])) {
 	$eintrag = "DELETE FROM session_user WHERE sess_id = '$sess_id'";
 	$mysqli->query($eintrag);
 	session_unset();
-	header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	header("Location: ../login");
+	die('Bitte zuerst <a href="../login">einloggen</a>');
 }
 
 
@@ -55,31 +55,42 @@ echo '<form action="" method="post"><input type="hidden" name="logout" value="tr
 echo '<table style="width:100%" class="pure-table"><thead>
   <tr>
     <th>Key</th>
-    <th style="width:80%">Value</th>
+    <th style="width:50%">Value</th>
+    <th>Default</th>
+    <th>Info</th>
   </tr></thead><tbody>';
+
 
 //Load config
 $config = array();
-$query = "SELECT conf_key, conf_value FROM config";
-if ($result = $GLOBALS['mysqli']->query($query)) {
+$query = "SELECT * FROM config";
+if ($result = $mysqli->query($query)) {
 	
 	    /* fetch object array */
 	    while ($obj = $result->fetch_object()) {
-			$conf_key = $obj->conf_key;			
+			$conf_key = $obj->conf_key;
 			$conf_value = $obj->conf_value;
+			$conf_default = $obj->conf_default;
+			$conf_info = $obj->conf_info;
 			$GLOBALS['config'][$conf_key] = $conf_value;
+			$GLOBALS['config_default'][$conf_key] = $conf_default;
+			$GLOBALS['config_info'][$conf_key] = $conf_info;
 		}
     }
     /* free result set */
     $result->close();
 
+
 foreach ($config as $key => $val) {
 	$key_html = $key;//"<input type=\"text\" value=\"$key\" readonly></input>";
 	$value_html = '<form action="" method="post"><input type="hidden" name="save_key" value="'.$key.'"><input style="width:80%" type="text" name="save_value" value="'.$val.'"></input> <input style="width:15%" type="submit" value="Save"></input></form>';
-
+	$default_html = $GLOBALS['config_default'][$key];
+	$info_html = $GLOBALS['config_info'][$key];
 	echo "<tr>
     <td>$key_html</td>
     <td>$value_html</td>
+    <td>$default_html</td>
+    <td>$info_html</td>
   </tr>";
 
 }
