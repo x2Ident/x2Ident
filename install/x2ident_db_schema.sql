@@ -32,6 +32,23 @@ CREATE TABLE `auth` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `config`
+--
+
+DROP TABLE IF EXISTS `config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `conf_key` text NOT NULL,
+  `conf_value` text NOT NULL,
+  `conf_default` text NOT NULL,
+  `conf_info` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `history`
 --
 
@@ -43,7 +60,7 @@ CREATE TABLE `history` (
   `pwid` int(11) NOT NULL,
   `last_login` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=322 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +82,7 @@ CREATE TABLE `onetimekeys` (
   `sess_id` text NOT NULL,
   `expires` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +116,7 @@ CREATE TABLE `session_user` (
   `js_id` text NOT NULL,
   `expires` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -111,4 +128,4 @@ CREATE TABLE `session_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-25 19:03:38
+-- Dump completed on 2016-08-26 11:04:42
