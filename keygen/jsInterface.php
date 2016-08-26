@@ -1,5 +1,9 @@
 <?php
-//TODO: gründliches code cleanup
+/*
+* x2Ident (web interface)
+* @version: release 1.0.0
+* @see https://github.com/x2Ident/x2Ident
+*/
 
 session_start();
 
@@ -156,40 +160,9 @@ foreach ($data as $key => $val) {
 	    $result->close();
 	}
 
-	//Calc last login
-	$timestamp = time();
-	$diff = $timestamp-$lastlogin;
-	$lastlogin_text = "vor ".$diff." Sekunde(n)";
-	if($diff>=60) {
-		$diff = round($diff/60);
-		$lastlogin_text = "vor ".$diff." Minute(n)";
-
-		if($diff>=60) {
-			$diff = round($diff/60);
-			$lastlogin_text = "vor ".$diff." Stunde(n)";
-
-			if($diff>=24) {
-				$diff = round($diff/24);
-				$lastlogin_text = "vor ".$diff." Tag(en)";
-
-				if($diff>=30) {
-					$diff = round($diff/30);
-					$lastlogin_text = "vor ".$diff." month ago";
-				}
-			}
-		}
-	}
-
-	//Calc last login
-	$timestamp = time();
-	$diff2 = $expires-$timestamp;
-	$expires_text = $diff2." Sekunden";
-    
-	
-	//echo "expires: ".$expires."; timestamp: ".$timestamp."|";
 	if($expires<$timestamp-1) {
 		//maybe delete real passwort due to security?
-		$eintrag = "UPDATE onetimekeys SET pw_active='0' WHERE pwid = '$id' AND sess_id='$sess_id'";
+		$eintrag = "UPDATE onetimekeys SET pw_active='0', real_pw='' realWHERE pwid = '$id' AND sess_id='$sess_id'";
 		$mysqli->query($eintrag);
 		$otk = "-";
 		$expires_text = "-";
