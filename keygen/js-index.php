@@ -42,6 +42,7 @@ if(isset($_POST['logout'])) {
 </style>
 <script>
 var last_html;
+var session_countdown = -1;
 var arr_expires_time = [];
 var arr_lastlogin_time = [];
 var arr_pwid = [];
@@ -62,6 +63,7 @@ function fetchData(once) {
 		    var antwort = request.responseText;
 			var html = "<table  class=\"pure-table\"><thead><tr><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
 			var arr1 = antwort.split("|");
+			session_countdown = arr1[arr1.length-2];
 			if(arr1[0].includes("[xi]_jsif")) {
 				console.log("debug1");
 				content_element.innerHTML = arr1[1];
@@ -74,7 +76,7 @@ function fetchData(once) {
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];
 			var arr_pwid_new = [];
-			for(i=0; i<arr1.length-1; i++) {
+			for(i=0; i<arr1.length-2; i++) {
 
 				var arr2 = arr1[i].split(";");
 
@@ -190,6 +192,7 @@ function set_global(checkbox,pwid) {
 function refreshData(once) {
 	refreshExpires(true);
 	refreshLastlogin(true);
+	refreshSessionCountdown(true);
 	if(!once) {
 		setTimeout(refreshData,200);
 	}
@@ -201,7 +204,7 @@ function refreshLastlogin(once) {
 		var lastlogin_time = arr_lastlogin_time[i];
 		var timestamp = Math.floor(Date.now() / 1000);
 		var diff = timestamp - lastlogin_time;
-		var diff_html = getTimeHTML(diff);
+		var diff_html = "vor "+getTimeHTML(diff);
 		if(lastlogin_time==0) {
 			diff_html = "noch nie";
 		}
@@ -211,6 +214,7 @@ function refreshLastlogin(once) {
 		setTimeout(refreshLastlogin,200);
 	}
 }
+
 function refreshExpires(once) {
 	for(i=0; i<arr_expires_time.length; i++) {
 		var expires_elem = document.getElementById("expires_"+i);
@@ -234,24 +238,40 @@ function refreshExpires(once) {
 		setTimeout(refreshExpires,200);
 	}
 }
+
+function refreshSessionCountdown(once) {
+	var session_countdown_elem = document.getElementById("session_countdown");
+	var session_countdown_html = "Session noch "+getTimeHTML(session_countdown)+" aktiv";
+	if(session_countdown<0) {
+		session_countdown_html = "";
+	}
+	if(session_countdown < 300) { //wenn nur noch 5 Minuten verbleiben rote Schriftfarbe
+		session_countdown_elem.style = "color: red";
+	}
+	session_countdown_elem.innerHTML = session_countdown_html;
+	if(!once) {
+		setTimeout(refreshSessionCountdown,200);
+	}
+}
+
 function getTimeHTML(time) {
 	//möglw. Bug
-	var time_text = "vor "+time+" Sekunde(n)";
+	var time_text = ""+time+" Sekunde(n)";
 	if(time>=60) {
 		time = Math.floor(time/60);
-		time_text = "vor "+time+" Minute(n)";
+		time_text = ""+time+" Minute(n)";
 
 		if(time>=60) {
 			time = Math.floor(time/60);
-			time_text = "vor "+time+" Stunde(n)";
+			time_text = ""+time+" Stunde(n)";
 
 			if(time>=24) {
 				time = Math.floor(time/24);
-				time_text = "vor "+time+" Tag(en)";
+				time_text = ""+time+" Tag(en)";
 
 				if(time>=30) {
 					time = Math.floor(time/30);
-					time_text = "vor "+time+" Monat(en)";
+					time_text = ""+time+" Monat(en)";
 				}
 			}
 		}
@@ -265,6 +285,7 @@ function getTimeHTML(time) {
 <h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
 <?php
 echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
+echo '<div id="session_countdown"></div>';
 echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
 ?>
 <div id="content">
