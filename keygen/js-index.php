@@ -42,6 +42,11 @@ if(isset($_POST['logout'])) {
 </style>
 </head>
 <body>
+<script type='text/javascript' > 
+var js_id = '<?php
+echo $_SESSION['js-id'];
+?>';
+</script>
 <script src="interface.js"></script>
 <h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
 <?php
