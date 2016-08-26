@@ -74,7 +74,7 @@ function fetchData(once) {
 			var arr_expires_time_new = [];
 			var arr_lastlogin_time_new = [];
 			var arr_pwid_new = [];
-			for(i=0; i<arr1.length-1; i++) {
+			for(i=0; i<arr1.length-2; i++) {
 
 				var arr2 = arr1[i].split(";");
 
@@ -190,6 +190,7 @@ function set_global(checkbox,pwid) {
 function refreshData(once) {
 	refreshExpires(true);
 	refreshLastlogin(true);
+	refreshSessionCountdown(true);
 	if(!once) {
 		setTimeout(refreshData,200);
 	}
@@ -211,6 +212,7 @@ function refreshLastlogin(once) {
 		setTimeout(refreshLastlogin,200);
 	}
 }
+
 function refreshExpires(once) {
 	for(i=0; i<arr_expires_time.length; i++) {
 		var expires_elem = document.getElementById("expires_"+i);
@@ -234,6 +236,22 @@ function refreshExpires(once) {
 		setTimeout(refreshExpires,200);
 	}
 }
+
+function refreshSessionCountdown(once) {
+	var lastlogin_elem = document.getElementById("session_countdown");
+	var lastlogin_time = arr_lastlogin_time[i];
+	var timestamp = Math.floor(Date.now() / 1000);
+	var diff = timestamp - lastlogin_time;
+	var diff_html = getTimeHTML(diff);
+	if(lastlogin_time==0) {
+		diff_html = "noch nie";
+	}
+	lastlogin_elem.innerHTML = diff_html;
+	if(!once) {
+		setTimeout(refreshLastlogin,200);
+	}
+}
+
 function getTimeHTML(time) {
 	//möglw. Bug
 	var time_text = "vor "+time+" Sekunde(n)";
@@ -265,6 +283,7 @@ function getTimeHTML(time) {
 <h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
 <?php
 echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
+echo '<div id="session_countdown"></div>';
 echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
 ?>
 <div id="content">

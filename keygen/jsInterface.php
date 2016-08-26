@@ -174,7 +174,7 @@ foreach ($data as $key => $val) {
 
 }
 
-echo "OK";
+echo "$session_countdown|OK";
 //var_dump($data);
 //echo " </tbody></table></body></html>";
 
