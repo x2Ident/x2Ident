@@ -59,6 +59,8 @@ if(isset($_POST['otk_pw_id'])) {
 	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires) VALUES ('$username', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires')";
 	//echo $eintrag;
 	$mysqli->query($eintrag);
+	header("Location: ");
+	die();
 }
 
 //ggf. OTK löschen
@@ -66,6 +68,8 @@ if(isset($_POST['otk_del_id'])) {
 	$del_id = $_POST['otk_del_id'];
 	$eintrag = "UPDATE onetimekeys SET pw_active='0', expires='-1' WHERE pwid = '".$del_id."' ";
 	$mysqli->query($eintrag);
+	header("Location: ");
+	die();
 }
 
 //ggf. OTK-Global setzen
@@ -74,6 +78,8 @@ if(isset($_POST['otk_global_id'])) {
 	$global_value = $_POST['otk_global'];
 	$eintrag = "UPDATE onetimekeys SET globalpw=$global WHERE pwid = '".$pwid."' ";
 	$mysqli->query($eintrag);
+	header("Location: ");
+	die();
 }
 
 echo '

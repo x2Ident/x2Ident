@@ -34,6 +34,8 @@ if(isset($_POST['save_key'])) {
     $sess_id = $_SESSION['sess_id'];
 	$eintrag = "UPDATE config SET conf_value='$conf_value' WHERE conf_key='$conf_key' ";
 	$mysqli->query($eintrag);
+	header("Location: ");
+	die();
 }
 
 echo '
