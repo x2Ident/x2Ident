@@ -1,4 +1,9 @@
 <?php
+/*
+* x2Ident (web interface)
+* @version: release 1.0.0
+* @see https://github.com/x2Ident/x2Ident
+*/
 
 session_start();
 

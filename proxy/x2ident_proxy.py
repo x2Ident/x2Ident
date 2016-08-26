@@ -34,11 +34,11 @@ def request(flow):
     for row in cur.fetchall():
         key = row[0]
         value = row[1]
-        # print("key: "+key)
+        print("key: "+key)
         if key == "url_xi_dir":
             url_xi_dir = value
 
-    # print("config loaded");
+    print("config loaded");
 
     print("x2Ident url: "+url_xi_dir)
     url_xi_pattern = ""
