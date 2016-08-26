@@ -3,9 +3,6 @@ var session_countdown = -1;
 var arr_expires_time = [];
 var arr_lastlogin_time = [];
 var arr_pwid = [];
-var js_id = '<?php
-echo $_SESSION['js-id'];
-?>';
 fetchData(false);
 refreshData(false);
 
