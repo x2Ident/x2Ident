@@ -3,9 +3,6 @@ x2Ident is the worlds first login technique, which protects users on every websi
 
 It powers a proxy server which replaces generated one-time-keys with your real passwords.
 
-## Warning
-Until the first release this repository will be experimental. So we do not recommend to use x2Ident in production in this time.
-
 ## Installation
 * (install Apache2, mysql, php, python, pip, virtualenv)
 * clone repository
