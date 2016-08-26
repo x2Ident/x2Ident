@@ -86,7 +86,7 @@ if(isset($_POST['createOTK-id'])) {
 	//echo $eintrag;
 	$mysqli->query($eintrag);
 	$timestamp = time();
-	$expires = $timestamp + 60;
+	$expires = $timestamp + $config['otk_expires'];
 	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires, url) VALUES ('$user', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires', '$pw_url')";
 	//echo $eintrag;
 	$mysqli->query($eintrag);

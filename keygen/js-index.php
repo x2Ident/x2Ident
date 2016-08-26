@@ -261,5 +261,6 @@ echo '<form action="" method="post"><input type="hidden" name="logout" value="tr
 <div id="content">
 bitte warten...
 </div>
+<br><a href="settings">Einstellungen</a>
 </body>
 </html>
