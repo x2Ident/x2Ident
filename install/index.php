@@ -1,11 +1,22 @@
 <?php
 
+session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once("../keygen/inc/config.php");
+require_once("../keygen/inc/init.php");
+
 // check if user input finished
 if(!isset($_POST['start_install'])) {
 	echo '
 		<html>
 			<body>
 				<h1>x2Ident: Install</h1>
+				<form action="" method="post">
+					<input type="hidden" name="start_install" value="1"></input>
+					<input type="submit" value="Start Install"></input>
 			</body>
 		</html>
 	';
@@ -25,11 +36,21 @@ writeConfig("session_expires", "3600", "3600", "in seconds");
 writeConfig("language", "en");
 writeConfig("installed", "1");
 
+echo '
+		<html>
+			<body>
+				<h1>x2Ident: Install</h1>
+				<h2>Installation finished</h2>
+			</body>
+		</html>
+	';
+	die();
+
 function curPageURL() {
 	$pageURL = 'http';
 	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
 	$pageURL .= "://";
-	if ($_SERVER["SERVER_PORT"] != "80") {
+	if (false/*$_SERVER["SERVER_PORT"] != "80"*/) {
 		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
 	} else {
 		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
@@ -38,13 +59,14 @@ function curPageURL() {
 }
 
 function writeConfig($key, $value, $default="", $info="") {
-    $sess_id = $_SESSION['sess_id'];
-	$eintrag = "UPDATE config SET conf_value='$conf_value' WHERE conf_key='$key' ";
+	$eintrag = "UPDATE config SET conf_value='$value' WHERE conf_key='$key' ";
 	$GLOBALS['mysqli']->query($eintrag);
+	var_dump($GLOBALS);
 	if($GLOBALS['mysqli']->affected_rows!=1) {
 		$eintrag = "DELETE FROM config WHERE conf_key='$key' ";
 		$GLOBALS['mysqli']->query($eintrag);
-		$eintrag = "INSERT INTO config ('conf_key','conf_value','conf_default','conf_info') VALUES ($key,$value,$default,$info) ";
+		$eintrag = "INSERT INTO config ('conf_key','conf_value','conf_default','conf_info') VALUES ('$key','$value','$default','$info') ";
 		$GLOBALS['mysqli']->query($eintrag);
+		echo $eintrag."|".$GLOBALS['mysqli']->affected_rows;
 	}
 }
