@@ -1,7 +1,7 @@
 #######
 # x2Ident (proxy)
 # @version: release 1.0.0
-# @see https://github.com/x2Ident/x2Ident/edit/master/README.md
+# @see https://github.com/x2Ident/x2Ident
 #######
 
 import sys
@@ -34,11 +34,11 @@ def request(flow):
     for row in cur.fetchall():
         key = row[0]
         value = row[1]
-        print("key: "+key)
+        # print("key: "+key)
         if key == "url_xi_dir":
             url_xi_dir = value
 
-    print("config loaded");
+    # print("config loaded");
 
     print("x2Ident url: "+url_xi_dir)
     url_xi_pattern = ""
@@ -87,7 +87,7 @@ def request(flow):
                 print("redirect to xIdent landing page")
 
     
-    cur.execute("SELECT pwid, onetime, real_pw, expires, url, pw_global FROM `onetimekeys` WHERE pw_active='1' ")
+    cur.execute("SELECT pwid, onetime, real_pw, expires, url, pw_global FROM `onetimekeys` ")
     replaced = False
     pwid = ""
     for row in cur.fetchall():
@@ -132,50 +132,3 @@ def request(flow):
                     cur.execute(query)            
     db.commit()
     cur.close()
-
-# def response(flow):
-#     cur.execute("SELECT pwid, onetime, real_pw, expires, url, pw_global FROM `onetimekeys` WHERE pw_active='1' ")
-#     replaced = False
-#     pwid = ""
-#     for row in cur.fetchall():
-#         pwid = str(row[0])
-#         expires = row[3]
-#         url = row[4]
-#         url_valide = False
-#         url_pattern = ""
-#         pw_global = int(float(row[5]))
-#         if(len(url)==0):
-#             url_valide = True
-#         if(pw_global==1):
-#             url_valide = True
-#         try:
-#             url_pattern = "://"+url.split("://")[1] # ignore protocol, but not subdomains!
-#         except:
-#             print("failed generate url_pattern: "+url)
-#             url_valide = True
-#         if url_pattern in flow.request.url:
-#             url_valide = True
-#         if url_valide:
-#             if expires<time.time():
-#                 if expires > 0:
-#                     query = "UPDATE onetimekeys SET pw_active=0 WHERE pwid="+str(pwid)
-#                     cur.execute(query)
-#                     print("deleted item because it expired (timestamp:"+str(time.time())+", expire:"+str(expires))
-#             else:
-#                 if row[1] in flow.request.content:
-#                     pwid = str(row[0])
-#                     print("replaced "+str(row[1])+" with "+str(row[2]))
-#                     flow.request.content = flow.request.content.replace(
-#                         str(row[2]),
-# 	                    str(row[1])
-#                     )
-#                     timestamp = str(time.time())
-#                     query = "UPDATE onetimekeys SET pw_active=0, expires=0 WHERE pwid="+str(pwid)
-#                     cur.execute(query)
-#                     print("deleted item because it was used");
-#                     query = "DELETE FROM history WHERE pwid="+pwid
-#                     cur.execute(query)
-#                     query = "INSERT INTO history (pwid, last_login) VALUES ("+pwid+","+timestamp+")"
-#                     cur.execute(query)            
-#     db.commit()
-#     cur.close()

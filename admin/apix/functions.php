@@ -331,9 +331,10 @@ function rest_get () {
                     $condition_value = $GLOBALS['request'][2];
                 }
                 DB::debugMode(false);
-
+				$data = "";
                 // get items in this module
-                $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE ".$condition, $condition_value);
+				// x2Ident mod, inactif=0
+                $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE inactif='0' AND ".$condition, $condition_value);
                 foreach ($response as $data)
                 {
                     // prepare output
@@ -354,7 +355,7 @@ function rest_get () {
                 $i = 0;
                 foreach ($response as $row)
                 {
-                    $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE id_tree=%i", $row['id']);
+                    $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE inactif='0' AND id_tree=%i", $row['id']);
                     foreach ($response as $data)
                     {
                         // prepare output
@@ -405,7 +406,8 @@ function rest_get () {
                 DB::debugMode(false);
 				$data = "";
                 // get items in this module
-                $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE ".$condition, $condition_value);
+				// x2Ident mod, inactif=0
+                $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE inactif='0' AND ".$condition, $condition_value);
                 foreach ($response as $data)
                 {
                     // prepare output
@@ -426,7 +428,7 @@ function rest_get () {
                 $i = 0;
                 foreach ($response as $row)
                 {
-                    $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE id_tree=%i", $row['id']);
+                    $response = DB::query("SELECT id,label,url,login,pw, pw_iv FROM ".prefix_table("items")." WHERE inactif='0' AND id_tree=%i", $row['id']);
                     foreach ($response as $data)
                     {
                         // prepare output

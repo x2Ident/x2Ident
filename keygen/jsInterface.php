@@ -33,7 +33,7 @@ if(strlen($proxy_ip)>1) {
 //Get JS id
 $js_id = $_POST['js-id'];
 if(strlen($js_id)<5) {
-	die("JS-id not valid.");
+	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 include('api.secret.php');
@@ -43,7 +43,8 @@ $js_id_valide = false;
 $user = "";
 $db_ip = "";
 $sess_id = "";
-$query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
+$session_expires = 0;
+$query = "SELECT user, ip, sess_id, expires FROM session_user WHERE js_id='$js_id'";
     //echo $query;
 	if ($result = $mysqli->query($query)) {
 	
@@ -53,11 +54,19 @@ $query = "SELECT user, ip, sess_id FROM session_user WHERE js_id='$js_id'";
 			$user = $obj->user;
 			$sess_id = $obj->sess_id;
 			$db_ip = $obj->ip;
+			$session_expires = $obj->expires;
 		}
 	}
+
+//ggf. session beenden, weil sie ausgelaufen ist
+$timestamp = time();
+if($timestamp>$session_expires) {
+	die("[xi]_jsif_session_expired.|Bitte zuerst <a href=\"login\">einloggen</a>");
+}
+
 if(!$js_id_valide) {
 	session_unset();
-	die("[xi]_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
 }
 
 if(strcmp($ip,$db_ip)!=0) {
@@ -174,7 +183,11 @@ foreach ($data as $key => $val) {
 
 }
 
-echo "OK";
+//calc session countdown
+$timestamp = time();
+$session_countdown = $session_expires - $timestamp;
+
+echo "$session_countdown|OK";
 //var_dump($data);
 //echo " </tbody></table></body></html>";
 
