@@ -10,10 +10,17 @@ See the wiki for a documentation.
 * clone repository
 * change urls in proxy/* (they should point to your x2Ident directory on your server)
 * create a user in mysql (e.g. x2ident) and a database (e.g. x2ident)
-* add a row to the table "config" in your database with the conf_key "url_xi_dir", put the url to your 
 * import database structure from "install/x2ident_db_schema.sql"
 * change db credentials in proxy/config.py and keygen/inc/config.php
 * open admin/index.php in your browser and follow the instructions
+* create users and an API Key in the admin zone (TeamPass)
+* give the API root permissions
+* add a row to the table "config" in your x2Ident database with the conf_key "url_xi_dir", put the url to your x2Ident folder in conf_value
+* add a row to the table "config" in your x2Ident database with the conf_key "api_key", put your API Key in conf_value
+* add a row to the table "config" in your x2Ident database with the conf_key "api_key", put your API Key in conf_value
+* add a row to the table "config" in your x2Ident database with the conf_key "otk_expires", put "60" in conf_value
+* add a row to the table "config" in your x2Ident database with the conf_key "session_expires", put "3600" in conf_value
+* manage conf_default and conf_info on your one
 * cd mitmproxy
 * run ./dev.sh
 * activate venv by ". venv/bin/activate" and install mysqldb for python
@@ -21,7 +28,7 @@ See the wiki for a documentation.
 * Download the Google Authenticator App (or an compatible) on your smartphone
 
 ### Start the proxy server
-* start the proxy server by "mitmproxy -s proxy/x2ident_replace.py -q --anticache"
+* start the proxy server by ./proxy.sh
 * wait until message "proxy started"
 * we recommend you to use "screen" for running the proxy
 
