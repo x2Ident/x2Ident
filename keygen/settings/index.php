@@ -102,7 +102,9 @@ foreach ($config as $key => $val) {
 
 }
 //var_dump($data);
-echo " </tbody></table></body></html>";
+echo " </tbody></table><br>
+Einige Einstellungen werden unter Umständen erst nach erneutem Login übernommen.
+</body></html>";
 
 //Sonderzeichen (auch Satzzeichen) verursachen beim Login Probleme
 function rand_char($length) {
