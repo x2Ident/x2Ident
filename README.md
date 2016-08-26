@@ -35,5 +35,5 @@ we are working on an install script ;-)
 * Go to "mitm.it" in your browser and install the certificate (if you want to know why, check the mitmproxy repository)
 * Login into the keygen zone with your Google Authenticator App
 * Generate one time key
-* set global if you want to use the one time key an another url as displayed (another subdomain e.g. www.example.com instead of example.com is also a different url); that is due to security reasons. See issue #17
+* set global if you want to use the one time key an another url as displayed (another subdomain e.g. www.example.com instead of example.com means also a different url; x2Ident checks, wether the url begins with the pattern, but ignores the protocol); that is due to security reasons. See issue #17
 * Login with your username and your one time key on the website
