@@ -61,12 +61,12 @@ function curPageURL() {
 function writeConfig($key, $value, $default="", $info="") {
 	$eintrag = "UPDATE config SET conf_value='$value' WHERE conf_key='$key' ";
 	$GLOBALS['mysqli']->query($eintrag);
-	var_dump($GLOBALS);
+	//var_dump($GLOBALS);
 	if($GLOBALS['mysqli']->affected_rows!=1) {
 		$eintrag = "DELETE FROM config WHERE conf_key='$key' ";
 		$GLOBALS['mysqli']->query($eintrag);
-		$eintrag = "INSERT INTO config ('conf_key','conf_value','conf_default','conf_info') VALUES ('$key','$value','$default','$info') ";
+		$eintrag = "INSERT INTO config (`conf_key`,`conf_value`,`conf_default`,`conf_info`) VALUES ('$key','$value','$default','$info') ";
 		$GLOBALS['mysqli']->query($eintrag);
-		echo $eintrag."|".$GLOBALS['mysqli']->affected_rows;
+		//echo $eintrag."|".$GLOBALS['mysqli']->affected_rows;
 	}
 }
