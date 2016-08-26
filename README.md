@@ -25,7 +25,7 @@ Until the first release this repository will be experimental. So we do not recom
 * start the proxy server by "mitmproxy -s proxy/x2ident_replace.py -q --anticache"
 * wait until message "proxy started"
 * we recommend you to use "screen" for running the proxy
-* 
+
 ### Security
 * we recommend you to make the proxy/* files, the mitmproxy/* files not acce
 
