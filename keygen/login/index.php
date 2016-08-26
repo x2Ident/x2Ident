@@ -5,6 +5,7 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+require_once("../inc/config.php");
 require_once("../inc/init.php");
 
 //Get user IP address
@@ -43,7 +44,7 @@ if(isset($_POST['auth_code'])) {
 		$checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
 		if ($checkResult) {
 			$timestamp = time();
-			$expires = $timestamp + 60*60; //Auf 1h limitieren
+			$expires = $timestamp + $config['session_expires'];
 			$sess_id = rand_char(30);
 			$js_id = rand_char(30);
             $user_agent = $_SERVER ['HTTP_USER_AGENT'];

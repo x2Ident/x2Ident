@@ -11,6 +11,7 @@ if(strlen($_SESSION['user'])<1) {
 	die('Bitte zuerst <a href="login">einloggen</a>');
 }
 
+require_once("inc/config.php");
 require_once("inc/init.php");
 
 //ggf. Logout
@@ -260,5 +261,6 @@ echo '<form action="" method="post"><input type="hidden" name="logout" value="tr
 <div id="content">
 bitte warten...
 </div>
+<br><a href="settings">Einstellungen</a>
 </body>
 </html>

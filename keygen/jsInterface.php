@@ -1,9 +1,12 @@
 <?php
+//TODO: gründliches code cleanup
+
 session_start();
 
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
+require_once("inc/config.php");
 require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
@@ -83,7 +86,7 @@ if(isset($_POST['createOTK-id'])) {
 	//echo $eintrag;
 	$mysqli->query($eintrag);
 	$timestamp = time();
-	$expires = $timestamp + 60;
+	$expires = $timestamp + $config['otk_expires'];
 	$eintrag = "INSERT INTO onetimekeys (user, sess_id, pwid, onetime, real_pw, pw_active, expires, url) VALUES ('$user', '$sess_id', '$pwid', '$key', '$real_password','1', '$expires', '$pw_url')";
 	//echo $eintrag;
 	$mysqli->query($eintrag);
