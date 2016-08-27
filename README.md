@@ -8,7 +8,7 @@ See the wiki for documentation.
 ## Demo
 Try the x2Ident service on our server!   
 Please keep in mind, that everyone has access to the passwords and data you saved at the demo service.
-* Proxy IP: 85.214.222.8
+* Proxy IP-Address: 85.214.222.8
 * Proxy Port: 8080 (use the same for every protocol)
 * User: demo
 * Password: demo
