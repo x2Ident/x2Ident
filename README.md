@@ -6,25 +6,31 @@ It powers a proxy server which replaces generated one-time-keys with your real p
 See the wiki for a documentation.
 
 ## Installation
+
+### Basics
 * (install Apache2, mysql, php, python, pip, virtualenv)
 * clone repository
-* change urls in proxy/* (they should point to your x2Ident directory on your server)
-* create a user in mysql (e.g. x2ident) and a database (e.g. x2ident)
+
+### Database
+* create a user for x2Ident in mysql (e.g. x2ident) and a database (e.g. x2ident)
 * import database structure from "install/x2ident_db_schema.sql"
-* change db credentials in proxy/config.py and keygen/inc/config.php
+* create a user for TeamPass (admin zone) in mysql (e.g. x2ident_teampass) and a database (e.g. x2ident_teampass)
+
+### TeamPass (admin zone)
 * open admin/index.php in your browser and follow the instructions
-* create users and an API Key in the admin zone (TeamPass)
-* give the API root permissions
-* add a row to the table "config" in your x2Ident database with the conf_key "url_xi_dir", put the url to your x2Ident folder in conf_value
-* add a row to the table "config" in your x2Ident database with the conf_key "api_key", put your API Key in conf_value
-* add a row to the table "config" in your x2Ident database with the conf_key "api_key", put your API Key in conf_value
-* add a row to the table "config" in your x2Ident database with the conf_key "otk_expires", put "60" in conf_value
-* add a row to the table "config" in your x2Ident database with the conf_key "session_expires", put "3600" in conf_value
-* manage conf_default and conf_info on your one
+* create users and an API Key in the admin zone (TeamPass), don't forget to enable the API
+* give the API permissions you want (we recommend read access to any users' folder, who want to use x2Ident)
+
+### Web interface
+* open /install/index.php in your browser and follow the instructions
+
+### Proxy Server (mitmproxy)
 * cd mitmproxy
 * run ./dev.sh
-* activate venv by ". venv/bin/activate" and install mysqldb for python
-* deactivate venv
+* activate virtualenv by ". venv/bin/activate" and install mysqldb for python
+* deactivate virtualenv
+
+### Google Authenticator
 * Download the Google Authenticator App (or an compatible) on your smartphone
 
 ### Start the proxy server
