@@ -54,7 +54,7 @@ Please keep in mind, that everyone has access to the passwords and data you save
 we are working on an easier way to install x2Ident ;)
 
 ## Tutorial
-* First you must add your passwords to the admin zone. (we recommend you to set url, see [issue #38](https://github.com/x2Ident/x2Ident/issues/38))
+* First you must add your passwords to the admin zone. (we recommend you to set url)
 * Scan the QR code with the Google Authenticator App
 * Setup your browser to use the proxy
 * Go to `mitm.it` in your browser and install the certificate (if you want to know why, check the mitmproxy repository)
