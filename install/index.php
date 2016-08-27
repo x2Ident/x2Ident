@@ -18,6 +18,7 @@ if(!isset($_POST['start_install'])) {
 	echo '
 		<html>
 			<head>
+				<title>x2Ident Installation</title>
 				<meta charset="UTF-8">
 			</head>
 			<body>
@@ -119,11 +120,12 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
 $result = curl_exec ($ch);
 
 //Prüfen, ob Verbindung erfolgreich war
-$error_result = '{"err":"';
-if(substr( $result, 0, strlen($error_result) ) === $error_result) {
-	error("API-Verbindung fehlgeschlagen: ".$result);
+if(strcmp($result,'{"err":"No results"}')!=0) {
+	$error_result = '{"err":"';
+	if(substr( $result, 0, strlen($error_result) ) === $error_result) {
+		error("API-Verbindung fehlgeschlagen: ".$result);
+	}
 }
-
 
 // establish db connection
 $mysqli = new mysqli($db_host, $db_login, $db_password, $db_database);
@@ -146,6 +148,7 @@ writeConfig("api_key", $api_key);
 echo '
 		<html>
 			<head>
+				<title>x2Ident Installation erfolgreich</title>
 				<meta charset="UTF-8">
 			</head>
 			<body>
@@ -161,6 +164,7 @@ function error($message) {
 	echo '
 		<html>
 			<head>
+				<title>x2Ident Installation fehlgeschlagen</title>
 				<meta charset="UTF-8">
 			</head>
 			<body>
@@ -195,6 +199,9 @@ function error($message) {
 
 function curPageURL() {
 	$pageURL = 'http';
+	if(!isset($_SERVER["HTTPS"])) {
+		$_SERVER["HTTPS"] = "";
+	}
 	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
 	$pageURL .= "://";
 	if (false/*$_SERVER["SERVER_PORT"] != "80"*/) {
