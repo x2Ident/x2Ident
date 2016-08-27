@@ -8,7 +8,7 @@ See the wiki for a documentation.
 ## Installation
 
 ### Basics
-* (install Apache2, mysql, php, python, pip, virtualenv)
+* install Apache2, mysql, php, python, pip, virtualenv
 * clone repository
 
 ### Database
