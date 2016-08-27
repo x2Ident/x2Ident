@@ -8,10 +8,10 @@ See the wiki for documentation.
 ## Demo
 Try the x2Ident service on our server!   
 Please keep in mind, that everyone has access to the passwords and data you saved at the demo service, if you don't delete them.
-* Proxy IP-Address: 85.214.222.8
-* Proxy Port: 8080 (use the same for every protocol)
-* User: demo
-* Password: demo
+* Proxy IP-Address: `85.214.222.8`
+* Proxy Port: `8080` (use the same for every protocol)
+* User: `demo`
+* Password: `demo`
 
 [x2Ident demo](https://noscio.eu/x2Ident_demo)
 
@@ -27,12 +27,12 @@ Please keep in mind, that everyone has access to the passwords and data you save
 * create a user for TeamPass (admin zone) in mysql (e.g. x2ident_teampass) and a database (e.g. x2ident_teampass)
 
 ### TeamPass (admin zone)
-* open admin/index.php in your browser and follow the instructions
+* open `admin/index.php` in your browser and follow the instructions
 * create users and an API Key in the admin zone (TeamPass), don't forget to enable the API
 * give the API permissions you want (we recommend read access to any users' folder, who want to use x2Ident)
 
 ### Web interface
-* open /install/index.php in your browser and follow the instructions
+* open `/install/index.php` in your browser and follow the instructions
 
 ### Proxy Server (mitmproxy)
 * `cd mitmproxy`
@@ -44,7 +44,7 @@ Please keep in mind, that everyone has access to the passwords and data you save
 * Download the Google Authenticator App (or an compatible) on your smartphone
 
 ### Start the proxy server
-* start the proxy server by `./proxy.sh* 
+* start the proxy server by `./proxy.sh`
 * wait until message `proxy started`
 * we recommend you to use `screen` for running the proxy
 
