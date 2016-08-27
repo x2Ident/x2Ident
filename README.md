@@ -39,7 +39,7 @@ See the wiki for a documentation.
 * we recommend you to use "screen" for running the proxy
 
 ### Security
-* we recommend you to make the proxy/* files, the mitmproxy/* files not accesable from the web
+* we recommend you to make the proxy/* files and the mitmproxy/* files not accesable from the web
 
 we are working on an install script ;-)
 
