@@ -298,7 +298,7 @@ function rest_get () {
 			else if($GLOBALS['request'][1] == "userpw") {
 				$username = $GLOBALS['request'][2];
 				if(strcmp($username,"admin")==0) {
-					rest_error('ADMIN_XIDENT');
+					//rest_error('ADMIN_XIDENT');
 				}
 				$response = DB::query("SELECT fonction_id FROM ".prefix_table("users")." WHERE login='".$username."'");
                 foreach ($response as $data)
