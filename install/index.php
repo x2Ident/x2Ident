@@ -2,11 +2,9 @@
 
 // TODO: Error Handling
 
-
 // FÜr das Install-Skript ist es hilfreich, Fehler auszugeben
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 
 // get url to working directory
 $currentURL = curPageURL();
@@ -109,7 +107,7 @@ file_put_contents("../keygen/api.secret.php",$php_api_key_file);
 
 // establish API connection
 $ch = curl_init();
-$url = str_replace("@@user@@","",$api_url);
+$url = str_replace("@@user@@","admin",$api_url);
 
 //URL übergeben
 curl_setopt($ch, CURLOPT_URL, $url);
