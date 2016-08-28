@@ -12,8 +12,7 @@ session_start();
 
 if(strlen($_SESSION['user'])<1) {
 	header("Location: login");
-	//var_dump($_SESSION);
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	die($language['loginfirst_link']);
 }
 
 require_once("inc/config.php");
@@ -28,13 +27,13 @@ if(isset($_POST['logout'])) {
 	$mysqli->query($eintrag);
 	session_unset();
 	header("Location: login");
-	die('Bitte zuerst <a href="login">einloggen</a>');
+	die($language['loginfirst_link']);
 }
 
 ?>
 <html>
 <head>
-<title>xIdent: Keygen</title>
+<title>xIdent: <?php echo $language['keygen_title']; ?></title>
 <link rel="stylesheet" href="pure-io.css">
 <meta charset="UTF-8">
 <style>
@@ -52,21 +51,21 @@ echo $_SESSION['js-id'];
 ?>';
 </script>
 <script src="interface.js"></script>
-<h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
+<h1><a href="../">x2Ident</a>: <?php echo $language['otk_create_title']; ?></h1>
 <?php
 if(isset(getallheaders()["xident-real-ip"])) {
-	echo 'Proxy aktiv!';
+	echo $language['proxy_aktiv'];
 }
 else {
-	echo 'Proxy inaktiv';
+	echo $language['proxy_inaktiv'];
 }
-echo "<br>Angemeldet als: <i>".$_SESSION['user']."</i>";
+echo "<br>".$language['angemeldet_als'].": <i>".$_SESSION['user']."</i>";
 echo '<div id="session_countdown"></div>';
-echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
+echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="'.$language['logout'].'"></form>';
 ?>
 <div id="content">
 bitte warten...
 </div>
-<br><a href="settings">Einstellungen</a>
+<br><a href="settings"><?php echo $language['settings']; ?></a>
 </body>
 </html>
