@@ -36,10 +36,10 @@ if(isset(getallheaders()["xident-real-ip"])) {
 		<h1>x2Ident - home</h1>
 		<?php
 if(isset($_SESSION['user'])) {
-	echo '<h1>Hallo <i>'.$_SESSION['user'].'</i>, ';
+	echo "<h1>".$language['hallo']." <i>".$_SESSION['user'].'</i>, ';
 }
 else {
-	echo '<h1>nicht angemeldet, ';
+	echo "<h1>".$language['nicht_angemeldet'].", ";
 }
 if(isset(getallheaders()["xident-real-ip"])) {
 	echo $language['proxy_aktiv'].'</h1>';
@@ -52,7 +52,7 @@ else {
 		<div class="w3l_main_grids">
 			<a href="admin">
 				<div class="w3l_main_grid1_w3ls w3l_main_grid1_w3ls_sub">
-					<h3>Admin</h3>
+					<h3><?php echo $language['admin_title']; ?></h3>
 					<font color="black">
 						<div class="w3l_main_grid1_w3ls_grid">
 							<?php echo $language['admin_text']; ?>
@@ -62,7 +62,7 @@ else {
 			</a>
 			<a href="keygen">
 				<div class="w3l_main_grid1_w3ls">
-					<h3>Keygen</h3>
+					<h3><?php echo $language['keygen_title']; ?></h3>
 					<font color="black">
 						<div class="w3l_main_grid1_w3ls_grid">
 							<?php echo $language['keygen_text']; ?>				
