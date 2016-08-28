@@ -91,7 +91,7 @@ echo '
 <html>
 <head>
 <link rel="stylesheet" href="pure-io.css">
-<title>xIdent: Keygen</title>
+<title>xIdent: Keygen (deprecated)</title>
 <meta http-equiv="refresh" content="5">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
@@ -133,6 +133,7 @@ function countdown_expire() {
 </head>
 <body>
 <h1><a href="../">xIdent</a>: Einmal-Key erstellen</h1>';
+echo '<h2>This site is only for usage in browsers, which dont\'t support JavaScript. It is deprecated, only the <a href="js-index.ph">site with JavaScript</a> is current.</h2>';
 echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
 echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
 
