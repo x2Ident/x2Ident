@@ -13,6 +13,7 @@ Please keep in mind, that everyone has access to the passwords and data you save
 * User: `demo`
 * Password: `demo`
 
+[Browser Setup](https://github.com/x2Ident/x2Ident/wiki/Browser-Setup)
 [x2Ident demo](https://noscio.eu/x2Ident_demo)
 
 ## Installation
