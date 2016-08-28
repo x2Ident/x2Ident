@@ -4,6 +4,9 @@
 * @version: release 1.0.0
 * @see https://github.com/x2Ident/x2Ident
 */
+if (session_id() == "") {
+	session_start();
+}
 
 $config = array();
 $config_default = array();
@@ -46,6 +49,11 @@ if ($result = $mysqli->query($query)) {
 	
 	    /* fetch object array */
 	    while ($obj = $result->fetch_object()) {
+			if($obj->only_admin==1) {
+				if($_SESSION['user'] !== 'admin') {
+					continue;
+				}
+			}
 			$conf_key = $obj->conf_key;
 			$conf_value = $obj->conf_value;
 			$conf_default = $obj->conf_default;

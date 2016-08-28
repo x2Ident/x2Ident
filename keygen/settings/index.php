@@ -75,13 +75,18 @@ if ($result = $mysqli->query($query)) {
 	
 	    /* fetch object array */
 	    while ($obj = $result->fetch_object()) {
+			if($obj->only_admin==1) {
+				if($_SESSION['user'] !== 'admin') {
+					continue;
+				}
+			}
 			$conf_key = $obj->conf_key;
 			$conf_value = $obj->conf_value;
 			$conf_default = $obj->conf_default;
 			$conf_info = $obj->conf_info;
-			$GLOBALS['config'][$conf_key] = $conf_value;
-			$GLOBALS['config_default'][$conf_key] = $conf_default;
-			$GLOBALS['config_info'][$conf_key] = $conf_info;
+			$config[$conf_key] = $conf_value;
+			$config_default[$conf_key] = $conf_default;
+			$config_info[$conf_key] = $conf_info;
 		}
     }
     /* free result set */
@@ -135,3 +140,4 @@ if ($result = $GLOBALS['mysqli']->query($query)) {
 }
 
 ?>
+
