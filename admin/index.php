@@ -144,7 +144,10 @@ echo $htmlHeaders;
 /* HEADER */
 echo '
     <div id="top">
-        <div id="logo"><img src="includes/images/canevas/logo.png" alt="" /></div>';
+        <a href="../">		
+			<font size="6" color="white"> x2Ident Admin-Zone</font>
+        	<div id="logo"><img src="includes/images/canevas/logo.png" alt="" /></div>
+		</a>';
 // Display menu
 if (isset($_SESSION['login'])) {
     // welcome message

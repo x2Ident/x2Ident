@@ -49,9 +49,22 @@ if(strlen($_SESSION['login'])>0) {
 			$mysqli_xi->query($query);
 		}
 		$qrCodeUrl = $ga->getQRCodeGoogleUrl('xIdent:'.$_SESSION['login'], $secret);
+		$ch = curl_init ($qrCodeUrl);
+    	curl_setopt($ch, CURLOPT_HEADER, 0);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    	curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+    	$raw=curl_exec($ch);
+    	curl_close ($ch);
+		if(file_exists('../inc/qr.png')){
+		    unlink('../inc/qr.png');
+    	}
+		// delete file before writing due to security reasons would be better
+    	$fp = fopen('../inc/qr.png','x');
+		fwrite($fp, $raw);
+		fclose($fp);
 		echo '
 <div id="xident_qr" class="div_center">
-            <div id="xident_qr_inner" style="min-height:25px;background-color:#FFC0C0;border:2px solid #FF0000;padding:5px;text-align:center; z-index:9999999;">xIdent:'.$_SESSION['login'].'<br><img src="'.$qrCodeUrl.'" alt="Google Auth">'.'<br>'.$secret.'<br>
+            <div id="xident_qr_inner" style="min-height:25px;background-color:#FFC0C0;border:2px solid #FF0000;padding:5px;text-align:center; z-index:9999999;">xIdent:'.$_SESSION['login'].'<br><img src="../inc/qr.php" alt="Google Auth">'.'<br>'.$secret.'<br>
 <button type="button" onclick="document.getElementById(\'xident_qr\').style.display=\'none\'">Schließen</button></div>
         </div>';
 	}
