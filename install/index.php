@@ -4,6 +4,7 @@
 * @version: release 1.2.0
 * @see https://github.com/x2Ident/x2Ident
 */
+$version = "1.2.0";
 
 // TODO: Error Handling
 
@@ -51,6 +52,11 @@ if(!isset($_POST['start_install'])) {
 						<p>Database</p> <input type="text" name="db_database"></input>
 					<h2>TeamPass-API-Key</h2>
 						<p>API-Key</p> <input type="text" name="api_key"></input>
+					<h2>language</h2>
+						<select name="language">
+							<option value="en" selected>English</option>
+							<option value="de" >Deutsch (German)</option>
+						</select>
 					<br>
 					<h2>Start Installation</h2>
 						<input type="hidden" name="start_install" value="1"></input>
@@ -62,7 +68,7 @@ if(!isset($_POST['start_install'])) {
 	die();
 }
 
-$post_values = array("db_host","db_login","db_password","db_database","api_key");
+$post_values = array("db_host","db_login","db_password","db_database","api_key","language");
 $install_data = array();
 
 
@@ -141,22 +147,63 @@ if(strcmp($result,'{"err":"No results"}')!=0) {
 	}
 }
 
+
+
 // establish db connection
 $mysqli = new mysqli($db_host, $db_login, $db_password, $db_database);
 //Check DB connection
-if (mysqli_connect_errno()) {
-    error("Database-Connection failed: ".mysqli_connect_error());
+if ($mysqli->connect_error) {
+    error("Database-Connection failed: ".$mysqli->connect_error);
 }
+
+
+/* change character set to utf8 */
+if (!$mysqli->set_charset("utf8")) {
+    error("Error loading character set utf8: %s\n", $mysqli->error);
+    exit();
+}
+
+
+// import db dump
+$filename = "dump.sql";
+// Temporary variable, used to store current query
+$templine = '';
+// Read in entire file
+$lines = file($filename);
+// Loop through each line
+foreach ($lines as $line)
+{
+	// Skip it if it's a comment
+	if (substr($line, 0, 2) == '--' || $line == '') {
+    	continue;
+	}
+	if (substr($line, 0, 1) == '/*' || $line == '') {
+    	continue;
+	}
+	// Add this line to the current segment
+	$templine .= $line;
+	// If it has a semicolon at the end, it's the end of the query
+	if (substr(trim($line), -1, 1) == ';')
+	{
+    	// Perform the query
+    	$mysqli->query($templine) or error('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
+    	// Reset temp variable to empty
+    	$templine = '';
+	}
+}
+
 
 
 // save config to db
 $api_key = $install_data['api_key'];
+$language = $install_data['language'];
 
-writeConfig("url_xi_dir", $url2working_dir, $url2working_dir, "");
+writeConfig("url_xi_dir", $url2working_dir, $url2working_dir, "You need https://!");
 writeConfig("otk_expires", "60", "60", "in seconds");
 writeConfig("session_expires", "3600", "3600", "in seconds");
-writeConfig("language", "en");
+writeConfig("language", $language, "en", "en: English, de: Deutsch");
 writeConfig("installed", "1");
+writeConfig("version", $version);
 writeConfig("api_key", $api_key);
 
 echo '

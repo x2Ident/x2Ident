@@ -3,10 +3,10 @@ class config:
         return "localhost"
 
     def user(self):
-        return "xident"
+        return "x2Ident_demo"
 
     def password(self):
         return "jugendhackt"
 
     def database(self):
-        return "xident"
+        return "x2Ident_demo"
