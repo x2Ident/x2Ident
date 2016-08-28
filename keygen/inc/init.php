@@ -50,6 +50,9 @@ if ($result = $mysqli->query($query)) {
 	    /* fetch object array */
 	    while ($obj = $result->fetch_object()) {
 			if($obj->only_admin==1) {
+				if(!isset($_SESSION['user'])) {
+					continue;
+				}
 				if($_SESSION['user'] !== 'admin') {
 					continue;
 				}
