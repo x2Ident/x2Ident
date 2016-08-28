@@ -24,7 +24,7 @@ if(!isset($_SERVER["HTTPS"])) {
 	}
 	if ($_SERVER["HTTPS"] == "on") {$ssl_conn = true;}
 if(!$ssl_conn) {
-	$ssl_error = '<h1>Bitte rufe diese Seite über https:// auf, sonst wird x2Ident mit dem unsicheren http installiert!</h1>';
+	$ssl_error = '<h1>Please call this site via TLS (https://), else your x2Ident installation will not be secure!</h1>';
 }
 
 // check if user input finished
