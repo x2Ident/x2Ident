@@ -12,6 +12,15 @@ $url2working_dir = str_replace("/install/index.php","/",$currentURL);
 $url2working_dir = str_replace("/install/","/",$url2working_dir);
 $url2working_dir = str_replace("/install","/",$url2working_dir);
 
+$ssl_conn = false;
+$ssl_error = "";
+if(!isset($_SERVER["HTTPS"])) {
+		$_SERVER["HTTPS"] = "";
+	}
+	if ($_SERVER["HTTPS"] == "on") {$ssl_conn = true;}
+if(!$ssl_conn) {
+	$ssl_error = '<h1>Bitte rufe diese Seite über https:// auf, sonst wird x2Ident mit dem unsicheren http installiert!</h1>';
+}
 
 // check if user input finished
 if(!isset($_POST['start_install'])) {
@@ -22,7 +31,7 @@ if(!isset($_POST['start_install'])) {
 				<meta charset="UTF-8">
 			</head>
 			<body>
-				<h1>x2Ident: Installation</h1>
+				<h1>x2Ident: Installation</h1>'.$ssl_error.'				
 				<h2>Sie müssen vor der x2Ident-Installation folgendes erledigt haben:</h2>
 				<ul>
 					<li>TeamPass (bzw. die Admin-Zone) installiert haben. <a href="../admin">Zur Admin-Zonen-Installation</a></li>

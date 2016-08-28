@@ -1,9 +1,12 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require_once("../keygen/inc/config.php");
+
+if(isset($_SESSION['login'])) {
 if(strlen($_SESSION['login'])>0) {
-	$mysqli_xi = new mysqli("localhost", "xident", "jugendhackt", "xident");
+	$mysqli_xi = new mysqli($host, $user, $password, $database);
 	// check connection
 	if ($mysqli_xi->connect_error) {
 	  trigger_error('Database connection failed: '  . $mysqli_xi->connect_error, E_USER_ERROR);
@@ -28,7 +31,7 @@ if(strlen($_SESSION['login'])>0) {
 		}
 	}
 	if($show_popup) {
-		require_once 'GoogleAuthenticator.php';
+		require_once 'ga.php';
 		$ga = new PHPGangsta_GoogleAuthenticator();
 		if($anzahl==0) {
 			$secret = $ga->createSecret();
@@ -49,6 +52,7 @@ if(strlen($_SESSION['login'])>0) {
 	}
 	$mysqli_xi->commit();
 	$mysqli_xi->close();
+}
 }
 ?>
 

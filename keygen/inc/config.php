@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$user = "xident";
+$user = "x2Ident_demo";
 $password = "jugendhackt";
-$database = "xident";
+$database = "x2Ident_demo";
 ?>

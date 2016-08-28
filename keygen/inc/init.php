@@ -16,6 +16,12 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+/* change character set to utf8 */
+if (!$mysqli->set_charset("utf8")) {
+    printf("Error loading character set utf8: %s\n", $mysqli->error);
+    exit();
+}
+
 $timestamp = time();
 $query = "SELECT * FROM session_user WHERE expires<$timestamp";
 if ($result = $mysqli->query($query)) {
@@ -47,6 +53,22 @@ if ($result = $mysqli->query($query)) {
 			$config[$conf_key] = $conf_value;
 			$config_default[$conf_key] = $conf_default;
 			$config_info[$conf_key] = $conf_info;
+		}
+    }
+    /* free result set */
+    $result->close();
+
+//Load language
+$language = array();
+$query = "SELECT * FROM language";
+if ($result = $mysqli->query($query)) {
+	
+	    /* fetch object array */
+	    while ($row = $result->fetch_assoc()) {
+			$conf_lang = $config['language'];
+			$lang_key = $row['key'];
+			$lang_value = $row[$conf_lang];
+			$language[$lang_key] = $lang_value;
 		}
     }
     /* free result set */

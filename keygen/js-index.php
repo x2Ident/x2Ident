@@ -34,14 +34,18 @@ if(isset($_POST['logout'])) {
 ?>
 <html>
 <head>
-<title>xIdent: Keygen JS demo</title>
+<title>xIdent: Keygen</title>
 <link rel="stylesheet" href="pure-io.css">
 <meta charset="UTF-8">
 <style>
 .otk_input { width:150px }
 </style>
 </head>
-<body>
+<body <?php
+if(isset(getallheaders()["xident-real-ip"])) {
+	echo 'style="background:#ff9925;height:100%"';
+}
+?> >
 <script type='text/javascript' > 
 var js_id = '<?php
 echo $_SESSION['js-id'];
@@ -50,7 +54,13 @@ echo $_SESSION['js-id'];
 <script src="interface.js"></script>
 <h1><a href="../">x2Ident</a>: Einmal-Key erstellen</h1>
 <?php
-echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
+if(isset(getallheaders()["xident-real-ip"])) {
+	echo 'Proxy aktiv!';
+}
+else {
+	echo 'Proxy inaktiv';
+}
+echo "<br>Angemeldet als: <i>".$_SESSION['user']."</i>";
 echo '<div id="session_countdown"></div>';
 echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
 ?>
