@@ -4,6 +4,7 @@
 * @version: release 1.0.0
 * @see https://github.com/x2Ident/x2Ident
 */
+// deprecated web interface, only for browsers which do not support JavaScript
 
 session_start();
 
