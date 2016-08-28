@@ -49,17 +49,27 @@ if(isset(getallheaders()["xident-real-ip"])) {
 var js_id = '<?php
 echo $_SESSION['js-id'];
 ?>';
+<?php
+	$interface_js = file_get_contents("interface.js");
+	preg_match_all("/(@@)([^@]*)(@@)/", $interface_js, $output_array);
+	$arr2 = $output_array[2];
+	foreach($arr2 as $key) {
+		$translation = $language[$key];
+		$old = "@@".$key."@@";
+		$interface_js = str_replace($old,$translation,$interface_js);
+	}
+	echo $interface_js;
+?>
 </script>
-<script src="interface.js"></script>
 <h1><a href="../">x2Ident</a>: <?php echo $language['otk_create_title']; ?></h1>
 <?php
 if(isset(getallheaders()["xident-real-ip"])) {
-	echo $language['proxy_aktiv'];
+	echo ucfirst($language['proxy_aktiv']);
 }
 else {
-	echo $language['proxy_inaktiv'];
+	echo ucfirst($language['proxy_inaktiv']);
 }
-echo "<br>".$language['angemeldet_als'].": <i>".$_SESSION['user']."</i>";
+echo "<br>".ucfirst($language['angemeldet_als']).": <i>".$_SESSION['user']."</i>";
 echo '<div id="session_countdown"></div>';
 echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="'.$language['logout'].'"></form>';
 ?>

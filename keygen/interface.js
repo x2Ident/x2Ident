@@ -15,11 +15,10 @@ function fetchData(once) {
 		if ((request.status >= 200) && (request.status < 300)) {
 			var content_element = document.getElementById("content");
 		    var antwort = request.responseText;
-			var html = "<table  class=\"pure-table\"><thead><tr><th>Titel</th><th>Website</th><th>Benutzername</th><th>Einmal-Key</th><th>Global</th><th>Läuft ab in</th><th>Letzter Login</th></tr></thead><tbody>";
+			var html = "<table  class=\"pure-table\"><thead><tr><th>@@title@@</th><th>@@website@@</th><th>@@user@@</th><th>@@otk@@</th><th>@@global@@</th><th>@@expires_in@@</th><th>@@last_login@@</th></tr></thead><tbody>";
 			var arr1 = antwort.split("|");
 			session_countdown = arr1[arr1.length-2];
 			if(arr1[0].includes("[xi]_jsif")) {
-				console.log("debug1");
 				content_element.innerHTML = arr1[1];
 				var current_url = window.location;
 				var new_url = current_url + "/../login/";
@@ -37,11 +36,11 @@ function fetchData(once) {
 				var pwid = arr2[0];
 				arr_pwid_new.push(pwid);
 
-				var otk_html = "<button onclick=\"createOTK("+pwid+")\">Key erstellen</button>";
+				var otk_html = "<button onclick=\"createOTK("+pwid+")\">@@create_otk_button@@</button>";
 				var otk_value = arr2[4];
 				var otk_string = otk_value+"";
 				if(otk_string.length>1) {
-					otk_html = "<input class=\"otk_input\" value=\""+otk_string+"\" readonly></input><button onclick=\"removeOTK("+pwid+")\">Löschen</button>";
+					otk_html = "<input class=\"otk_input\" value=\""+otk_string+"\" readonly></input><button onclick=\"removeOTK("+pwid+")\">@@delete_otk_button@@</button>";
 				}
 				var global_html = "<input type=\"checkbox\" onclick=\"set_global(this,"+pwid+")\">";
 				var global_value = arr2[5];
@@ -158,9 +157,9 @@ function refreshLastlogin(once) {
 		var lastlogin_time = arr_lastlogin_time[i];
 		var timestamp = Math.floor(Date.now() / 1000);
 		var diff = timestamp - lastlogin_time;
-		var diff_html = "vor "+getTimeHTML(diff);
+		var diff_html = "@@vor_zeit_1@@ "+getTimeHTML(diff)+"@@vor_zeit_2@@";
 		if(lastlogin_time==0) {
-			diff_html = "noch nie";
+			diff_html = "@@noch_nie@@";
 		}
 		lastlogin_elem.innerHTML = diff_html;
 	}
@@ -176,7 +175,7 @@ function refreshExpires(once) {
 		var timestamp = Math.floor(Date.now() / 1000);
 		var counter = expires_time - timestamp;
 		if(counter>0) {
-			expires_elem.innerHTML = counter + " Sekunden";
+			expires_elem.innerHTML = counter + " @@sekunden@@";
 			if(counter < 10) {
 				expires_elem.style.color = "red";
 			}
@@ -195,7 +194,7 @@ function refreshExpires(once) {
 
 function refreshSessionCountdown(once) {
 	var session_countdown_elem = document.getElementById("session_countdown");
-	var session_countdown_html = "Session noch "+getTimeHTML(session_countdown)+" aktiv";
+	var session_countdown_html = "@@session_noch_aktiv_1@@ "+getTimeHTML(session_countdown)+" @@session_noch_aktiv_2@@";
 	if(session_countdown<0) {
 		session_countdown_html = "";
 	}
@@ -210,26 +209,30 @@ function refreshSessionCountdown(once) {
 
 function getTimeHTML(time) {
 	//möglw. Bug
-	var time_text = ""+time+" Sekunde(n)";
+	var time_text = ""+time+" @@time_sekunden@@";
 	if(time>=60) {
 		time = Math.floor(time/60);
-		time_text = ""+time+" Minute(n)";
+		time_text = ""+time+" @@time_minuten@@";
 
 		if(time>=60) {
 			time = Math.floor(time/60);
-			time_text = ""+time+" Stunde(n)";
+			time_text = ""+time+" @@time_stunden@@";
 
 			if(time>=24) {
 				time = Math.floor(time/24);
-				time_text = ""+time+" Tag(en)";
+				time_text = ""+time+" @@time_tage@@";
 
 				if(time>=30) {
 					time = Math.floor(time/30);
-					time_text = ""+time+" Monat(en)";
+					time_text = ""+time+" @@time_monate@@";
 				}
 			}
 		}
 	}
 	//console.log(time_text);
 	return time_text;
+}
+
+function ucFirst(string) {
+    return string.substring(0, 1).toUpperCase() + string.substring(1);
 }
