@@ -24,16 +24,15 @@ Please keep in mind, that everyone has access to the passwords and data you save
 
 ### Database
 * create a user for x2Ident in mysql (e.g. x2ident) and a database (e.g. x2ident)
-* import database structure from `install/x2ident_db_schema.sql`
 * create a user for TeamPass (admin zone) in mysql (e.g. x2ident_teampass) and a database (e.g. x2ident_teampass)
 
 ### TeamPass (admin zone)
-* open `admin/index.php` in your browser and follow the instructions
+* open `/admin` in your browser and follow the instructions
 * create users and an API Key in the admin zone (TeamPass), don't forget to enable the API
 * give the API permissions you want (we recommend read access to any users' folder, who want to use x2Ident)
 
 ### Web interface
-* open `/install/index.php` in your browser and follow the instructions
+* open `/install` in your browser and follow the instructions
 
 ### Proxy Server (mitmproxy)
 * `cd mitmproxy`
