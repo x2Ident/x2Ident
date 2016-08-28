@@ -15,7 +15,7 @@ require_once("../inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
 	header("Location: login");
-	die('Bitte zuerst <a href="../login">einloggen</a>');
+	die($language['loginfirst_link']);
 }
 
 //ggf. Logout
@@ -26,11 +26,8 @@ if(isset($_POST['logout'])) {
 	$mysqli->query($eintrag);
 	session_unset();
 	header("Location: ../login");
-	die('Bitte zuerst <a href="../login">einloggen</a>');
+	die($language['loginfirst_link']);
 }
-
-
-$form_keyerstellen = '<form action="" method="post"><input type="hidden" name="otk_pw_id" value="@@id@@"><input type="submit" value="Key erstellen"></form>';
 
 //ggf. wert in config schreiben
 if(isset($_POST['save_key'])) {
@@ -55,16 +52,16 @@ echo '
 <meta charset="utf-8"/>
 </head>
 <body>
-<h1><a href="../">x2Ident</a>: Settings</h1>';
-echo "Angemeldet als: <i>".$_SESSION['user']."</i>";
-echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="Logout"></form>';
+<h1><a href="../">x2Ident</a>: '.$language['settings'].'</h1>';
+echo $language['angemeldet_als'].": <i>".$_SESSION['user']."</i>";
+echo '<form action="" method="post"><input type="hidden" name="logout" value="true"><input type="submit" value="'.$language['logout'].'"></form>';
 
 echo '<table style="width:100%" class="pure-table"><thead>
   <tr>
-    <th>Key</th>
-    <th style="width:50%">Value</th>
-    <th>Default</th>
-    <th>Info</th>
+    <th>'.$language['key'].'</th>
+    <th style="width:50%">'.$language['value'].'</th>
+    <th>'.$language['default'].'</th>
+    <th>'.$language['info'].'</th>
   </tr></thead><tbody>';
 
 
@@ -95,7 +92,7 @@ if ($result = $mysqli->query($query)) {
 
 foreach ($config as $key => $val) {
 	$key_html = $key;//"<input type=\"text\" value=\"$key\" readonly></input>";
-	$value_html = '<form action="" method="post"><input type="hidden" name="save_key" value="'.$key.'"><input style="width:80%" type="text" name="save_value" value="'.$val.'"></input> <input style="width:15%" type="submit" value="Save"></input></form>';
+	$value_html = '<form action="" method="post"><input type="hidden" name="save_key" value="'.$key.'"><input style="width:80%" type="text" name="save_value" value="'.$val.'"></input> <input style="width:15%" type="submit" value="'.$language['save'].'"></input></form>';
 	$default_html = $GLOBALS['config_default'][$key];
 	$info_html = $GLOBALS['config_info'][$key];
 	echo "<tr>
@@ -108,7 +105,7 @@ foreach ($config as $key => $val) {
 }
 //var_dump($data);
 echo " </tbody></table><br>
-Einige Einstellungen werden unter Umständen erst nach erneutem Login übernommen.
+".$language['einstellungen_erst_nach_login']."
 </body></html>";
 
 //Sonderzeichen (auch Satzzeichen) verursachen beim Login Probleme
