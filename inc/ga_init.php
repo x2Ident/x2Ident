@@ -1,4 +1,9 @@
 <?php
+/*
+* x2Ident (web interface)
+* @version: release 1.2.0
+* @see https://github.com/x2Ident/x2Ident
+*/
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

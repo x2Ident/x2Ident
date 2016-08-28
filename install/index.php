@@ -1,4 +1,9 @@
 <?php
+/*
+* x2Ident (web interface)
+* @version: release 1.2.0
+* @see https://github.com/x2Ident/x2Ident
+*/
 
 // TODO: Error Handling
 
@@ -32,24 +37,24 @@ if(!isset($_POST['start_install'])) {
 			</head>
 			<body>
 				<h1>x2Ident: Installation</h1>'.$ssl_error.'				
-				<h2>Sie müssen vor der x2Ident-Installation folgendes erledigt haben:</h2>
+				<h2>You must have following done before installation:</h2>
 				<ul>
-					<li>TeamPass (bzw. die Admin-Zone) installiert haben. <a href="../admin">Zur Admin-Zonen-Installation</a></li>
-					<li>Eine MySQL-Datenbank (und ggf. einen Benutzer) für x2Ident eingerichtet haben</li>
-					<li>In der Admin-Zone (als admin) einen API-Key mit Read-Rechten auf alle Einträge erstellt haben</li>
+					<li>TeamPass (admin zone) installed</li>
+					<li>created a MySQL-database (and maybe also a user) for x2Ident</li>
+					<li>created an API-key in the admin zone (as admin) with the permissions you want</li>
 				</ul>
 				<form action="" method="post">
-					<h2>Datenbankzugangsdaten</h2>
+					<h2>database credentials</h2>
 						<p>Host</p> <input type="text" name="db_host"></input>
 						<p>Login</p> <input type="text" name="db_login"></input>
-						<p>Passwort</p> <input type="text" name="db_password"></input>
-						<p>Datenbank</p> <input type="text" name="db_database"></input>
+						<p>Password</p> <input type="text" name="db_password"></input>
+						<p>Database</p> <input type="text" name="db_database"></input>
 					<h2>TeamPass-API-Key</h2>
 						<p>API-Key</p> <input type="text" name="api_key"></input>
 					<br>
-					<h2>Installation starten</h2>
+					<h2>Start Installation</h2>
 						<input type="hidden" name="start_install" value="1"></input>
-						<input type="submit" value="Installation starten"></input>
+						<input type="submit" value="Start Installation"></input>
 				</form>
 			</body>
 		</html>
@@ -67,7 +72,7 @@ foreach ($post_values as $value) {
 		$install_data[$value] = $_POST[$value];
 	}
 	else {
-		error("Sie müssen für '".$value." einen Wert eingeben.");
+		error("You left '".$value." free.");
 	}
 }
 
@@ -132,7 +137,7 @@ $result = curl_exec ($ch);
 if(strcmp($result,'{"err":"No results"}')!=0) {
 	$error_result = '{"err":"';
 	if(substr( $result, 0, strlen($error_result) ) === $error_result) {
-		error("API-Verbindung fehlgeschlagen: ".$result);
+		error("API-Connection failed: ".$result);
 	}
 }
 
@@ -140,7 +145,7 @@ if(strcmp($result,'{"err":"No results"}')!=0) {
 $mysqli = new mysqli($db_host, $db_login, $db_password, $db_database);
 //Check DB connection
 if (mysqli_connect_errno()) {
-    error("Datenbank-Verbindung fehlgeschlagen: ".mysqli_connect_error());
+    error("Database-Connection failed: ".mysqli_connect_error());
 }
 
 
@@ -157,13 +162,13 @@ writeConfig("api_key", $api_key);
 echo '
 		<html>
 			<head>
-				<title>x2Ident Installation erfolgreich</title>
+				<title>x2Ident Installation successfull</title>
 				<meta charset="UTF-8">
 			</head>
 			<body>
 				<h1>x2Ident: Installation</h1>
-				<h2>Installation erfolgreich beendet</h2>
-				<p>Starten Sie damit, sich in der <a href="../admin">Admin-Zone</a> mit ihrem Benutzer einzuloggen (verwenden Sie nicht admin) und den QR-Code mit der Google-Authenticator-App zu scannen. Dann können Sie sich in der Keygen-Zone mit dem Benutzernamen und einem Google-Authenticator-Key anmelden.</p>
+				<h2>Installation finished successfully</h2>
+				<p>Start with logging in into the <a href="../admin">admin zone</a> with your user name. Then scan the QR-Code with the Google-Authenticator-App. After that you can login into the keygen zone with your user name und a google authenticator key.</p>
 			</body>
 		</html>
 	';
@@ -173,32 +178,32 @@ function error($message) {
 	echo '
 		<html>
 			<head>
-				<title>x2Ident Installation fehlgeschlagen</title>
+				<title>x2Ident Installation failed</title>
 				<meta charset="UTF-8">
 			</head>
 			<body>
 				<h1>x2Ident: Installation</h1>
-				<h1>Installation fehlgeschlagen</h1>
+				<h1>Installation failed</h1>
 				<h2>'.$message.'</h2>
 				<hr></hr>
-				<h2>Sie müssen vor der x2Ident-Installation folgendes erledigt haben:</h2>
+				<h2>You must have following done before installation:</h2>
 				<ul>
-					<li>TeamPass (bzw. die Admin-Zone) installiert haben</li>
-					<li>Eine MySQL-Datenbank (und ggf. einen Benutzer) für x2Ident eingerichtet haben</li>
-					<li>In der Admin-Zone (als admin) einen API-Key mit Admin-Rechten erstellt haben</li>
+					<li>TeamPass (admin zone) installed</li>
+					<li>created a MySQL-database (and maybe also a user) for x2Ident</li>
+					<li>created an API-key in the admin zone (as admin) with the permissions you want</li>
 				</ul>
 				<form action="" method="post">
-					<h2>Datenbankzugangsdaten</h2>
+					<h2>database credentials</h2>
 						<p>Host</p> <input type="text" name="db_host"></input>
 						<p>Login</p> <input type="text" name="db_login"></input>
-						<p>Passwort</p> <input type="text" name="db_password"></input>
-						<p>Datenbank</p> <input type="text" name="db_database"></input>
+						<p>Password</p> <input type="text" name="db_password"></input>
+						<p>Database</p> <input type="text" name="db_database"></input>
 					<h2>TeamPass-API-Key</h2>
 						<p>API-Key</p> <input type="text" name="api_key"></input>
 					<br>
-					<h2>Installation starten</h2>
+					<h2>Start Installation</h2>
 						<input type="hidden" name="start_install" value="1"></input>
-						<input type="submit" value="Installation starten"></input>
+						<input type="submit" value="Start Installation"></input>
 				</form>
 			</body>
 		</html>

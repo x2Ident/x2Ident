@@ -1,4 +1,9 @@
 <?php
+/*
+* x2Ident (web interface)
+* @version: release 1.2.0
+* @see https://github.com/x2Ident/x2Ident
+*/
 
 /**
  * PHP Class for handling Google Authenticator 2-factor authentication
