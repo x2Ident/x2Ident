@@ -4,6 +4,7 @@
 * @version: release 1.0.0
 * @see https://github.com/x2Ident/x2Ident
 */
+
 if (session_id() == "") {
 	session_start();
 }
