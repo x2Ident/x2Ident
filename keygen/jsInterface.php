@@ -14,7 +14,7 @@ require_once("inc/config.php");
 require_once("inc/init.php");
 
 if(strlen($_SESSION['user'])<1) {
-	die('[xi]_jsif_not-logged-in|Bitte zuerst <a href="login">einloggen</a>');
+	die('[xi]_jsif_login_not-logged-in|'.$language['loginfirst_link']);
 }
 
 //Get user IP address
@@ -33,10 +33,16 @@ if(strlen($proxy_ip)>1) {
 //Get JS id
 $js_id = $_POST['js-id'];
 if(strlen($js_id)<5) {
-	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_login_JS-id_not_valid.|".$language['loginfirst_link']);
 }
 
-include('api.secret.php');
+//include('api.secret.php'); --> api_key is now stored in the database
+
+$api_key = $config['api_key'];
+
+$api_url = $config['url_xi_dir']."/admin/apix/index.php/read/userpw/@@user@@?apikey=".$api_key;
+$api_url = str_replace("//admin","/admin",$api_url);
+#echo $api_url.";";
 
 //Check js_id
 $js_id_valide = false;
@@ -61,17 +67,17 @@ $query = "SELECT user, ip, sess_id, expires FROM session_user WHERE js_id='$js_i
 //ggf. session beenden, weil sie ausgelaufen ist
 $timestamp = time();
 if($timestamp>$session_expires) {
-	die("[xi]_jsif_session_expired.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_login_session_expired.|".$language['loginfirst_link']);
 }
 
 if(!$js_id_valide) {
 	session_unset();
-	die("[xi]_jsif_JS-id_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_login_JS-id_not_valid.|".$language['loginfirst_link']);
 }
 
 if(strcmp($ip,$db_ip)!=0) {
 	session_unset();
-	die("[xi]_IP-Address_not_valid.|Bitte zuerst <a href=\"login\">einloggen</a>");
+	die("[xi]_jsif_login_IP-Address_not_valid.|".$language['loginfirst_link']);
 }
 
 //Daten abrufen
@@ -87,6 +93,14 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
 //Anfrage durchführen und Antwort in $result speichern
 $result = curl_exec ($ch);
 $data = json_decode($result,true);
+
+//Prüfen, ob Verbindung erfolgreich war
+if(strcmp($result,'{"err":"No results"}')!=0) {
+	$error_result = '{"err":"';
+	if(substr( $result, 0, strlen($error_result) ) === $error_result) {
+		die("[xi]_jsif_API_conn_failed.|".$language['api_conn_failed']);
+	}
+}
 
 //ggf. OTK generieren und in DB schreiben
 if(isset($_POST['createOTK-id'])) {
