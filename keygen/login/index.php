@@ -1,7 +1,6 @@
 <?php
 /*
 * x2Ident (web interface)
-* @version: release 1.2.0
 * @see https://github.com/x2Ident/x2Ident
 */
 
@@ -89,10 +88,10 @@ function printLoginForm($message) {
 		$maske = str_replace("<!--message-->","<center><h2>".$message."</h2></center>",$maske);
 	}
 	if(isset(getallheaders()["xident-real-ip"])) {
-		$proxy_info = '<h1>x2Ident, Proxy aktiv!</h1>';
+		$proxy_info = '<h1>x2Ident, '.$language['proxy_aktiv'].'</h1>';
 	}
 	else {
-		$proxy_info = '<h1>x2Ident, Proxy inaktiv</h1>';
+		$proxy_info = '<h1>x2Ident, '.$language['proxy_inaktiv'].'</h1>';
 		$maske = str_replace("<body>",'<body style="background-color: #262122">',$maske);
 	}
 	$maske = str_replace("<h1>x2Ident</h1>",$proxy_info,$maske);
