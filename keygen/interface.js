@@ -20,9 +20,11 @@ function fetchData(once) {
 			session_countdown = arr1[arr1.length-2];
 			if(arr1[0].includes("[xi]_jsif")) {
 				content_element.innerHTML = arr1[1];
-				var current_url = window.location;
-				var new_url = current_url + "/../login/";
-				window.location.replace(new_url);
+				if(arr1[0].includes("[xi]_jsif_login")) {
+					var current_url = window.location;
+					var new_url = current_url + "/../login/";
+					window.location.replace(new_url);
+				}
 				setTimeout(fetchData,1000);
 				return;
 			}

@@ -34,8 +34,18 @@ if(isset($_POST['save_key'])) {
 	$conf_key = $_POST['save_key'];
 	$conf_value = $_POST['save_value'];
     $sess_id = $_SESSION['sess_id'];
-	$eintrag = "UPDATE config SET conf_value='$conf_value' WHERE conf_key='$conf_key' ";
-	$mysqli->query($eintrag);
+	$user = $_SESSION['user'];
+	$timestamp = time();
+	if($_SESSION['user'] !== 'admin') {
+		$eintrag = "DELETE FROM user_conf WHERE conf_key='$conf_key' AND user='$user';";
+		$mysqli->query($eintrag);
+		$eintrag =  "INSERT INTO user_conf ( `user` , `conf_key` , `conf_value` , `time`) VALUES ('$user','$conf_key','$conf_value','$time');";
+		$mysqli->query($eintrag);
+	}
+	else {
+		$eintrag = "UPDATE config SET conf_value='$conf_value' WHERE conf_key='$conf_key' ";	
+		$mysqli->query($eintrag);
+	}
 	header("Location: ");
 	die();
 }
@@ -88,6 +98,22 @@ if ($result = $mysqli->query($query)) {
     }
     /* free result set */
     $result->close();
+
+
+//Load user config
+$query = "SELECT * FROM user_conf WHERE user='".$_SESSION['user']."'";
+if ($result = $mysqli->query($query)) {
+	if($result) {
+	    /* fetch object array */
+	    while ($obj = $result->fetch_object()) {
+			$conf_key = $obj->conf_key;
+			$conf_value = $obj->conf_value;
+			$config[$conf_key] = $conf_value;
+		}
+    /* free result set */
+    $result->close();
+    }
+}
 
 
 foreach ($config as $key => $val) {

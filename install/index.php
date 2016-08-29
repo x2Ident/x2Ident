@@ -4,13 +4,32 @@
 * @version: release 1.2.0
 * @see https://github.com/x2Ident/x2Ident
 */
-$version = "1.2.0";
+$version = "1.3.0";
 
 // TODO: Error Handling
 
 // FÜr das Install-Skript ist es hilfreich, Fehler auszugeben
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+$install_form = '<form action="" method="post">
+					<h2>database credentials</h2>
+						<p>Host</p> <input type="text" name="db_host"></input>
+						<p>Login</p> <input type="text" name="db_login"></input>
+						<p>Password</p> <input type="text" name="db_password"></input>
+						<p>Database</p> <input type="text" name="db_database"></input>
+					<h2>TeamPass-API-Key</h2>
+						<p>API-Key</p> <input type="text" name="api_key"></input>
+					<h2>language</h2>
+						<select name="language">
+							<option value="en" selected>English</option>
+							<option value="de" >Deutsch (German)</option>
+						</select>
+					<br>
+					<h2>Start Installation</h2>
+						<input type="hidden" name="start_install" value="1"></input>
+						<input type="submit" value="Start Installation"></input>
+				</form>';
 
 // get url to working directory
 $currentURL = curPageURL();
@@ -44,24 +63,7 @@ if(!isset($_POST['start_install'])) {
 					<li>created a MySQL-database (and maybe also a user) for x2Ident</li>
 					<li>created an API-key in the admin zone (as admin) with the permissions you want</li>
 				</ul>
-				<form action="" method="post">
-					<h2>database credentials</h2>
-						<p>Host</p> <input type="text" name="db_host"></input>
-						<p>Login</p> <input type="text" name="db_login"></input>
-						<p>Password</p> <input type="text" name="db_password"></input>
-						<p>Database</p> <input type="text" name="db_database"></input>
-					<h2>TeamPass-API-Key</h2>
-						<p>API-Key</p> <input type="text" name="api_key"></input>
-					<h2>language</h2>
-						<select name="language">
-							<option value="en" selected>English</option>
-							<option value="de" >Deutsch (German)</option>
-						</select>
-					<br>
-					<h2>Start Installation</h2>
-						<input type="hidden" name="start_install" value="1"></input>
-						<input type="submit" value="Start Installation"></input>
-				</form>
+				'.$install_form.'
 			</body>
 		</html>
 	';
@@ -222,6 +224,7 @@ echo '
 	die();
 
 function error($message) {
+	$install_form = $GLOBALS['install_form'];
 	echo '
 		<html>
 			<head>
@@ -239,19 +242,7 @@ function error($message) {
 					<li>created a MySQL-database (and maybe also a user) for x2Ident</li>
 					<li>created an API-key in the admin zone (as admin) with the permissions you want</li>
 				</ul>
-				<form action="" method="post">
-					<h2>database credentials</h2>
-						<p>Host</p> <input type="text" name="db_host"></input>
-						<p>Login</p> <input type="text" name="db_login"></input>
-						<p>Password</p> <input type="text" name="db_password"></input>
-						<p>Database</p> <input type="text" name="db_database"></input>
-					<h2>TeamPass-API-Key</h2>
-						<p>API-Key</p> <input type="text" name="api_key"></input>
-					<br>
-					<h2>Start Installation</h2>
-						<input type="hidden" name="start_install" value="1"></input>
-						<input type="submit" value="Start Installation"></input>
-				</form>
+				'.$install_form.'
 			</body>
 		</html>
 	';

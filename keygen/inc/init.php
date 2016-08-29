@@ -5,6 +5,9 @@
 * @see https://github.com/x2Ident/x2Ident
 */
 
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+
 if (session_id() == "") {
 	session_start();
 }
@@ -69,6 +72,28 @@ if ($result = $mysqli->query($query)) {
     }
     /* free result set */
     $result->close();
+
+if(isset($_SESSION['user'])) {
+//Load user config
+$query = "SELECT * FROM user_conf WHERE user='".$_SESSION['user']."'";
+if ($result2 = $mysqli->query($query)) {
+	if($result2) {
+	    /* fetch object array */
+	    while ($obj = $result2->fetch_object()) {
+			$conf_key = $obj->conf_key;
+			$conf_value = $obj->conf_value;
+			$config[$conf_key] = $conf_value;
+		}
+    }
+    /* free result set */
+	try {
+    	$result2->close();
+	}
+	catch (Exception $e) {
+    	//echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+	}
+	}
+}
 
 //Load language
 $language = array();
