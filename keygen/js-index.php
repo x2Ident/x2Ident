@@ -52,9 +52,8 @@ echo $_SESSION['js-id'];
 <?php
 	// very proud of this code ;) ~jgherb
 	$interface_js = file_get_contents("interface.js");
-	preg_match_all("/(@@)([^@]*)(@@)/", $interface_js, $output_array);
-	$arr2 = $output_array[2];
-	foreach($arr2 as $key) {
+	preg_match_all("/(@@)([^@]*)(@@)/", $interface_js, $out_arr);
+	foreach($out_arr[2] as $key) {
 		$translation = $language[$key];
 		$old = "@@".$key."@@";
 		$interface_js = str_replace($old,$translation,$interface_js);
