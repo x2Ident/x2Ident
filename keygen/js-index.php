@@ -50,6 +50,7 @@ var js_id = '<?php
 echo $_SESSION['js-id'];
 ?>';
 <?php
+	// very proud of this code ;) ~jgherb
 	$interface_js = file_get_contents("interface.js");
 	preg_match_all("/(@@)([^@]*)(@@)/", $interface_js, $output_array);
 	$arr2 = $output_array[2];
