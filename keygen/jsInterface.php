@@ -49,7 +49,7 @@ $user = "";
 $db_ip = "";
 $sess_id = "";
 $session_expires = 0;
-$query = "SELECT user, ip, sess_id, expires FROM session_user WHERE js_id='$js_id'";
+$query = "SELECT user, ip, sess_id, expires FROM session_user WHERE BINARY js_id='$js_id'";
     //echo $query;
 	if ($result = $mysqli->query($query)) {
 	
