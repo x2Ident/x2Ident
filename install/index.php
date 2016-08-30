@@ -204,7 +204,7 @@ writeConfig("url_xi_dir", $url2working_dir, 0, $url2working_dir, "You need https
 writeConfig("otk_expires", "60", 0, "60", "in seconds");
 writeConfig("session_expires", "3600", 0, "3600", "in seconds");
 writeConfig("language", $language, 0, "en", "en: English, de: Deutsch");
-writeConfig("installed", "1", 2);
+writeConfig("installed", "1", 1);
 writeConfig("version", $version, 1);
 writeConfig("api_key", $api_key, 1);
 
@@ -271,7 +271,7 @@ function writeConfig($key, $value, $only_admin=0, $default="", $info="") {
 	if($GLOBALS['mysqli']->affected_rows!=1) {
 		$eintrag = "DELETE FROM config WHERE conf_key='$key' ";
 		$GLOBALS['mysqli']->query($eintrag);
-		$eintrag = "INSERT INTO config (`conf_key`,`conf_value`,`conf_default`,`conf_info`) VALUES ('$key','$value','$default','$info') ";
+		$eintrag = "INSERT INTO config (`conf_key`,`conf_value`,`conf_default`,`conf_info`,`only_admin`) VALUES ('$key','$value','$default','$info','$only_admin') ";
 		$GLOBALS['mysqli']->query($eintrag);
 		//echo $eintrag."|".$GLOBALS['mysqli']->affected_rows;
 	}
