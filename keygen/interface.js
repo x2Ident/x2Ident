@@ -81,7 +81,6 @@ function fetchData(once) {
 
 			refreshData(true);
 			if(!once) {
-				//console.log("set timeout fetchData");
 				setTimeout(fetchData,1000);
 			}
 	    } else {
