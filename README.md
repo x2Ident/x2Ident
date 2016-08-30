@@ -52,6 +52,7 @@ If you use an old TeamPass version, which does not include [our Pull Request #14
 * #### [x2Ident_test](https://github.com/x2Ident/x2Ident_test)
 Includes the latest sourcecode and an fully installed admin area.   
 Simply clone and test (if you have mitmproxy installed).   
+You have to run `/install` before using.   
 Proposed for testers and contributors.   
 
 * #### [x2Ident_ide](https://github.com/x2Ident/x2Ident_ide)
