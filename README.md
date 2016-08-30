@@ -14,7 +14,7 @@ Please keep in mind, that everyone has access to the passwords and data you save
 * Password: `demo`
 
 [Browser Setup](https://github.com/x2Ident/x2Ident/wiki/Browser-Setup)   
-[x2Ident demo](https://noscio.eu/x2Ident_demo)
+[x2Ident demo](https://noscio.eu/x2Ident/demo)
 
 ## Installation
 
