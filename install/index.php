@@ -200,13 +200,13 @@ foreach ($lines as $line)
 $api_key = $install_data['api_key'];
 $language = $install_data['language'];
 
-writeConfig("url_xi_dir", $url2working_dir, $url2working_dir, "You need https://!");
-writeConfig("otk_expires", "60", "60", "in seconds");
-writeConfig("session_expires", "3600", "3600", "in seconds");
-writeConfig("language", $language, "en", "en: English, de: Deutsch");
-writeConfig("installed", "1");
-writeConfig("version", $version);
-writeConfig("api_key", $api_key);
+writeConfig("url_xi_dir", $url2working_dir, 0, $url2working_dir, "You need https://!");
+writeConfig("otk_expires", "60", 0, "60", "in seconds");
+writeConfig("session_expires", 0, "3600", "3600", "in seconds");
+writeConfig("language", $language, 0, "en", "en: English, de: Deutsch");
+writeConfig("installed", 1, "1");
+writeConfig("version", 1, $version);
+writeConfig("api_key", 1, $api_key);
 
 echo '
 		<html>
@@ -264,7 +264,7 @@ function curPageURL() {
 	return $pageURL;
 }
 
-function writeConfig($key, $value, $default="", $info="") {
+function writeConfig($key, $value, $only_admin, $default="", $info="") {
 	$eintrag = "UPDATE config SET conf_value='$value' WHERE conf_key='$key' ";
 	$GLOBALS['mysqli']->query($eintrag);
 	//var_dump($GLOBALS);
