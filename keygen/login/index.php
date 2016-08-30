@@ -35,7 +35,7 @@ if(isset($_POST['auth_code'])) {
 	$oneCode = $_POST['auth_code'];
 	$username = $_POST['user_name'];	
 
-	$query = "SELECT secret FROM auth WHERE user='$username'";
+	$query = "SELECT secret FROM auth WHERE BINARY user='$username'";
 	if ($result = $mysqli->query($query)) {
 	
 	    /* fetch object array */
