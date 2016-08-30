@@ -16,6 +16,59 @@ Please keep in mind, that everyone has access to the passwords and data you save
 [Browser Setup](https://github.com/x2Ident/x2Ident/wiki/Browser-Setup)   
 [x2Ident demo](https://noscio.eu/x2Ident/demo)
 
+## Editions
+x2Ident is available in 4/(6) Editions.
+
+* #### [x2Ident](https://github.com/x2Ident/x2Ident)
+Includes the full sourcecode.   
+Use it if you have nor TeamPass neither mitmproxy installed.   
+Use it if you wan't an easy installation.   
+
+* #### [x2Ident_woTP](https://github.com/x2Ident/x2Ident_woTP)
+Includes the full sourcecode without TeamPass.   
+Use it, if you want to use x2Ident with an existing TeamPass installation.   
+You have to change the link at the x2Ident home page to the admin area.   
+You have to replace the `index.php` of your existing installation with the `/admin/index.php` of x2Ident.   
+If you use an old TeamPass version, which does not include [our Pull Request #1455 on the TeamPass repository](https://github.com/nilsteampassnet/TeamPass/pull/1455) (version 2.1.26), you need to replace `/api/functions.php` of your existing TeamPass installtion with `/admin/api/functions.php` of x2Ident.
+
+* #### [x2Ident_woMP](https://github.com/x2Ident/x2Ident_woMP)
+Includes the full sourcecode without mitmproxy.   
+Use it, if you want to use x2Ident with an existing mitmproxy installation.   
+You have to install MySqlDB for python in your mitmproxy venv.   
+You have to change the directory in `proxy.sh`.   
+
+* #### [x2Ident_standalone](https://github.com/x2Ident/x2Ident_standalone)
+Includes the full sourcecode without TeamPass and mitmproxy.   
+Use it, if you want to use x2Ident with an existing TeamPass installation and an existing mitmproxy installation.   
+(Or if you want to update x2Ident without reinstalling TeamPass and mitmproxy).   
+You have to install MySqlDB for python in your mitmproxy venv.   
+You have to change the directory in `proxy.sh`.   
+You have to change the link at the x2Ident home page to the admin area.   
+You have to replace the `index.php` of your existing TeamPass installation with the `/admin/index.php` of x2Ident.   
+If you use an old TeamPass version, which does not include [our Pull Request #1455 the TeamPass repository](https://github.com/nilsteampassnet/TeamPass/pull/1455) (version 2.1.26), you need to replace `/api/functions.php` of your existing TeamPass installtion with `/admin/api/functions.php` of x2Ident.
+
+### Development Editions
+
+* #### [x2Ident_test](https://github.com/x2Ident/x2Ident_test)
+Includes the latest sourcecode and an fully installed admin area.   
+Simply clone and test (if you have mitmproxy installed).   
+Proposed for testers and contributors.   
+
+* #### [x2Ident_ide](https://github.com/x2Ident/x2Ident_ide)
+Includes tools and scripts to easily develop x2Ident.   
+Proposed for contributors.   
+  ##### Credentials:
+  * TeamPass admin password: jugendhackt
+  * TeamPass MySQL user: teampass_xi_test   
+  * TeamPass MySQL database: teampass_xi_test
+  * TeamPass MySQL password: jugendhackt
+  * TeamPass MySQL host: localhost
+  * TeamPass salt key: KEn87HF29HwHp2tv
+  * x2Ident MySQL user: x2Ident_test   
+  * x2Ident MySQL database: x2Ident_test
+  * x2Ident MySQL password: jugendhackt
+  * x2Ident MySQL host: localhost
+
 ## Installation
 
 ### Basics
