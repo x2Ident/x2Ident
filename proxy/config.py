@@ -1,3 +1,8 @@
+####
+# this is a default configuration
+# you need to run '/install'
+####
+
 class config:
     def host(self):
         return "localhost"
