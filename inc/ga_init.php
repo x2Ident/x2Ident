@@ -20,7 +20,7 @@ if(strlen($_SESSION['login'])>0) {
 	$show_popup = true;
 	$anzahl = 0;
 	$no_secret = true;
-	$abfrage = "SELECT user, secret, not_show FROM auth WHERE user = '".$_SESSION['login']."';";
+	$abfrage = "SELECT user, secret, not_show FROM auth WHERE BINARY user = '".$_SESSION['login']."';";
 
 	if ($result = $mysqli_xi->query($abfrage)) {
 	    while ($obj = $result->fetch_object()) {
