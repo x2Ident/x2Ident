@@ -30,6 +30,7 @@ if(isset($_POST['logout'])) {
 }
 
 ?>
+
 <html>
 <head>
 <title>xIdent: <?php echo $language['keygen_title']; ?></title>
@@ -44,7 +45,7 @@ if(isset(getallheaders()["xident-real-ip"])) {
 	echo 'style="background:#ff9925;height:100%"';
 }
 ?> >
-<script type='text/javascript' > 
+<script type='text/javascript'>
 var js_id = '<?php
 echo $_SESSION['js-id'];
 ?>';
