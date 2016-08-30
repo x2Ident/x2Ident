@@ -60,6 +60,7 @@ if(isset($_POST['auth_code'])) {
 			$eintrag = "INSERT INTO session_user (user,ip,sess_id,js_id,user_agent, expires) VALUES ('$username','$ip','$sess_id','$js_id','$user_agent','$expires')";
             echo $ip;
 			$mysqli->query($eintrag);
+			// redirect to keygen
 			header("Location: ../");
 			die();
 		}
