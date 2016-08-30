@@ -26,6 +26,7 @@ function fetchData(once) {
 			if(arr1[0].includes("[xi]_jsif")) {
 				content_element.innerHTML = arr1[1];
 				if(arr1[0].includes("[xi]_jsif_login")) {
+					//redirect auf login page
 					var current_url = window.location;
 					var new_url = current_url + "/../login/";
 					window.location.replace(new_url);
