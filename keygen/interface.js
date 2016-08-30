@@ -1,3 +1,8 @@
+/*
+* x2Ident (web interface)
+* See https://github.com/x2Ident/x2Ident
+*/
+
 var last_html;
 var session_countdown = -1;
 var arr_expires_time = [];
