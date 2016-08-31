@@ -64,7 +64,7 @@ Proposed for testers and contributors.
   * x2Ident MySQL user: x2Ident_test   
   * x2Ident MySQL database: x2Ident_test
   * x2Ident MySQL password: jugendhackt
-  * x2Ident MySQL host: localhost#
+  * x2Ident MySQL host: localhost
 
 * #### [x2Ident_ide](https://github.com/x2Ident/x2Ident_ide)
 Includes tools and scripts to easily develop x2Ident.   
