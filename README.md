@@ -61,6 +61,7 @@ Proposed for testers and contributors.
   * TeamPass MySQL password: jugendhackt
   * TeamPass MySQL host: localhost
   * TeamPass salt key: KEn87HF29HwHp2tv
+  * TeamPass API key: vidaexaeYieQu4oosh4eed0theikeziepheebek
   * x2Ident MySQL user: x2Ident_test   
   * x2Ident MySQL database: x2Ident_test
   * x2Ident MySQL password: jugendhackt
