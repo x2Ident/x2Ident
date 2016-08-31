@@ -1,7 +1,6 @@
 #######
 # x2Ident (proxy)
-# @version: release 1.0.0
-# @see https://github.com/x2Ident/x2Ident/edit/master/README.md
+# @see https://github.com/x2Ident
 #######
 
 import sys
