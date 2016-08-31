@@ -22,7 +22,7 @@ x2Ident is available in 4/(6) Editions.
 * #### [x2Ident](https://github.com/x2Ident/x2Ident)
 Includes the full sourcecode.   
 Use it if you have nor TeamPass neither mitmproxy installed.   
-Use it if you wan't an easy installation.   
+Use it if you want an easy installation.   
 
 * #### [x2Ident_woTP](https://github.com/x2Ident/x2Ident_woTP)
 Includes the full sourcecode without TeamPass.   
@@ -54,10 +54,6 @@ Includes the latest sourcecode and an fully installed admin area.
 Simply clone and test (if you have mitmproxy installed).   
 You have to run `/install` before using.   
 Proposed for testers and contributors.   
-
-* #### [x2Ident_ide](https://github.com/x2Ident/x2Ident_ide)
-Includes tools and scripts to easily develop x2Ident.   
-Proposed for contributors.   
   ##### Credentials:
   * TeamPass admin password: jugendhackt
   * TeamPass MySQL user: teampass_xi_test   
@@ -68,7 +64,12 @@ Proposed for contributors.
   * x2Ident MySQL user: x2Ident_test   
   * x2Ident MySQL database: x2Ident_test
   * x2Ident MySQL password: jugendhackt
-  * x2Ident MySQL host: localhost
+  * x2Ident MySQL host: localhost#
+
+* #### [x2Ident_ide](https://github.com/x2Ident/x2Ident_ide)
+Includes tools and scripts to easily develop x2Ident.   
+Proposed for contributors.   
+
 
 ## Installation
 
