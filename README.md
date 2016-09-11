@@ -3,7 +3,7 @@ x2Ident is the worlds first login technique, which protects users on every websi
 
 It powers a proxy server which replaces generated one-time-keys with your real passwords.
 
-See the wiki for documentation.
+See the [wiki](https://github.com/x2Ident/x2Ident/wiki) for documentation.
 
 ## Demo
 Try the x2Ident service on our server!   
