@@ -1,5 +1,5 @@
 # x2Ident
-x2Ident is the worlds first login technique, which protects users on every website in the internet against keylogger, clipboard-spoofing and unauthorized man-in-the-middle-attacks.
+x2Ident is the worlds first login technique, which protects users on every website in the internet against keylogger, clipboard-spoofing and man-in-the-middle-attacks.
 
 It powers a proxy server which replaces generated one-time-keys with your real passwords.
 
@@ -75,6 +75,7 @@ Proposed for contributors.
 ## Installation
 
 ### Basics
+* setup a linux server
 * install Apache2, mysql, php, python, pip, virtualenv
 * clone repository
 
